@@ -1,12 +1,12 @@
 import React from "react";
 
-function LeaveEmployee() {
+function HolidayEmployee() {
   return (
     <div className="mt-10 lg:-mt-80 ml-5 lg:ml-16 mr-5 lg:mr-96 h-auto bg-gray-200 dark:bg-gray-800 w-auto rounded-lg">
       <div className="bg-white dark:bg-gray-900 dark:text-white px-10 py-5 rounded-t-lg text-3xl font-semibold text-gray-900 flex align-center justify-between">
-        Employee Leave
+        Employee Holiday
         <button className="text-base flex items-center bg-green-500 px-3 py-2 rounded-md">
-          Apply For A Leave
+          Apply For A Holiday
         </button>
       </div>
       <div className="bg-gray-200 dark:bg-gray-800 h-auto px-10 py-5">
@@ -19,18 +19,18 @@ function LeaveEmployee() {
                 </th>
                 <th className=" py-2">
                   <span className="text-gray-900 dark:text-white">
-                    Leave Type
+                    Holiday Type
                   </span>
                 </th>
                 <th className=" py-2">
                   <span className="text-gray-900 dark:text-white">
-                    Leave Start Date
+                    Holiday Start Date
                   </span>
                 </th>
 
                 <th className=" py-2">
                   <span className="text-gray-900 dark:text-white">
-                    Leave End Date
+                    Holiday End Date
                   </span>
                 </th>
 
@@ -71,7 +71,9 @@ function LeaveEmployee() {
               </tr>
               <tr className="bg-white dark:bg-slate-800 text-black dark:text-white border-4 border-gray-200 dark:border-gray-700">
                 <td className="text-center py-2">3.</td>
-                <td className="text-center ml-2 font-semibold">Casual Leave</td>
+                <td className="text-center ml-2 font-semibold">
+                  Casual Holiday
+                </td>
                 <td className="text-center py-2">18/01/2022</td>
 
                 <td className="text-center py-2">18/01/2022</td>
@@ -102,4 +104,4 @@ function LeaveEmployee() {
   );
 }
 
-export default LeaveEmployee;
+export default HolidayEmployee;

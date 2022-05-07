@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 // import { Helmet } from "react-helmet";
 import "react-toastify/dist/ReactToastify.css";
-import { cleanLocalStorage } from "../utils/storage";
 import { useDispatch } from "react-redux";
 import { loginAction } from "../redux/Action/AuthAction";
 
@@ -17,15 +16,6 @@ const Auth = () => {
     data.append("password", passcode);
     dispatch(loginAction(data));
   };
-
-  const clearLocalStorageOnLoad = () => {
-    cleanLocalStorage();
-    window.localStorage.clear();
-  };
-
-  useEffect(() => {
-    clearLocalStorageOnLoad();
-  }, []);
 
   return (
     <>

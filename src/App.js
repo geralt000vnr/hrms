@@ -1,11 +1,11 @@
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Auth from "./routes/Auth";
 import User from "./routes/User";
 
 function App() {
-  // const { user } = useSelector((state) => state);
-  // const currentUser = user?.currentUser;
-  const currentUser = true;
+  const { user } = useSelector((state) => state);
+  const currentUser = user?.currentUser;
+  // const currentUser = true;
   return (
     <div className="bg-white dark:bg-zinc-800 min-h-screen">
       {!currentUser ? <Auth /> : <User />}

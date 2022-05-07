@@ -1,12 +1,14 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
-import profile from "../assets/profile.JPG";
+// import profile from "../assets/profile.JPG";
 import { logout } from "../redux/Action/AuthAction";
 
 function Navbar() {
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state);
+  const currentUser = user?.currentUser;
   return (
     <>
       <div
@@ -52,7 +54,7 @@ function Navbar() {
                   d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                 />
               </svg>
-              Calender
+              Calendar
             </Link>
             <NavLink to="/chatemployee" className="active:underline">
               {" "}
@@ -72,7 +74,7 @@ function Navbar() {
               </svg>
               Chat
             </NavLink>
-            <NavLink to="/leaveemployee" className="active:underline">
+            <NavLink to="/holidayEmployee" className="active:underline">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 inline mx-2"
@@ -87,7 +89,7 @@ function Navbar() {
                   d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
                 />
               </svg>
-              Leave
+              Holidays
             </NavLink>
             <NavLink to="/projectsemployee" className="active:underline">
               <svg
@@ -105,24 +107,6 @@ function Navbar() {
                 />
               </svg>
               Projects
-            </NavLink>
-            <NavLink to="/profileemployee" className="active:underline">
-              {" "}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 inline mx-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1}
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                />
-              </svg>
-              Profile
             </NavLink>
             <NavLink to="/taskemployee" className="active:underline">
               <svg
@@ -155,6 +139,24 @@ function Navbar() {
                 />
               </svg>
               Other Employees
+            </NavLink>
+            <NavLink to="/profileemployee" className="active:underline">
+              {" "}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 inline mx-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1}
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
+              </svg>
+              Profile
             </NavLink>
           </div>
           <div className="justify-between gap-8 flex text-xl">
@@ -216,10 +218,11 @@ function Navbar() {
         </div>
         <div className="w-full hidden lg:block">
           <div className="w-80 mt-16 ml-auto justify-center flex flex-col">
+            {console.log("userAvtar", currentUser)}
             <img
-              src={profile}
+              src={currentUser.userAvtar}
               alt="profile"
-              className="rounded-full h-32 w-32 mx-auto"
+              className="rounded-full h-32 w-32 mx-auto overflow-hidden"
             />
             <div className="mx-auto my-5 text-2xl font-bold">Neeraj Yadav</div>
             <div>

@@ -220,7 +220,7 @@ function EmployeeList() {
                             className="absolute inset-0 bg-red-300 opacity-50 rounded-full"
                           ></span>
                           <span className="relative dark:text-white">
-                            Leave
+                            Holiday
                           </span>
                         </span>
                       </td>
