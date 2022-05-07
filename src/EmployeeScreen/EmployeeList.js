@@ -217,10 +217,10 @@ function EmployeeList() {
                         <span className="relative inline-block px-3 py-1 font-semibold text-orange-900 leading-tight">
                           <span
                             aria-hidden
-                            className="absolute inset-0 bg-green-200 opacity-50 rounded-full"
+                            className="absolute inset-0 bg-red-300 opacity-50 rounded-full"
                           ></span>
                           <span className="relative dark:text-white">
-                            Available
+                            Leave
                           </span>
                         </span>
                       </td>

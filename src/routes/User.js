@@ -6,7 +6,7 @@ import CalenderEmployee from "../EmployeeScreen/CalenderEmployee";
 import ChatEmployee from "../EmployeeScreen/ChatEmployee";
 import EmployeeHomeScreen from "../EmployeeScreen/EmployeeHomeScreen";
 import EmployeeList from "../EmployeeScreen/EmployeeList";
-import InvoiceEmployee from "../EmployeeScreen/InvoiceEmployee";
+import LeaveEmployee from "../EmployeeScreen/LeaveEmployee";
 import ProfileEmployee from "../EmployeeScreen/ProfileEmployee";
 import ProjectsEmployee from "../EmployeeScreen/ProjectsEmployee";
 import TaskEmployee from "../EmployeeScreen/TaskEmployee";
@@ -19,7 +19,7 @@ function User() {
         <Route path={"/"} element={<EmployeeHomeScreen />} />
         <Route path={"/calenderemployee"} element={<CalenderEmployee />} />
         <Route path={"/chatemployee"} element={<ChatEmployee />} />
-        <Route path={"/invoiceemployee"} element={<InvoiceEmployee />} />
+        <Route path={"/leaveemployee"} element={<LeaveEmployee />} />
         <Route path={"/projectsemployee"} element={<ProjectsEmployee />} />
         <Route path={"/profileemployee"} element={<ProfileEmployee />} />
         <Route path={"/taskemployee"} element={<TaskEmployee />} />

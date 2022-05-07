@@ -6,14 +6,18 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Provider } from "react-redux";
+import { store } from "./redux/Store";
 
 ReactDOM.render(
-  <BrowserRouter>
-    <React.StrictMode>
-      <ToastContainer position="bottom-right" draggable />
-      <App />
-    </React.StrictMode>
-  </BrowserRouter>,
+  <Provider store={store}>
+    <BrowserRouter>
+      <React.StrictMode>
+        <ToastContainer position="bottom-right" draggable />
+        <App />
+      </React.StrictMode>
+    </BrowserRouter>
+  </Provider>,
   document.getElementById("root"),
 );
 

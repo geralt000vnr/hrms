@@ -1,9 +1,12 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
 import profile from "../assets/profile.JPG";
+import { logout } from "../redux/Action/AuthAction";
 
 function Navbar() {
+  const dispatch = useDispatch();
   return (
     <>
       <div
@@ -69,7 +72,7 @@ function Navbar() {
               </svg>
               Chat
             </NavLink>
-            <NavLink to="/invoiceemployee" className="active:underline">
+            <NavLink to="/leaveemployee" className="active:underline">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 inline mx-2"
@@ -84,7 +87,7 @@ function Navbar() {
                   d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
                 />
               </svg>
-              Invoice
+              Leave
             </NavLink>
             <NavLink to="/projectsemployee" className="active:underline">
               <svg
@@ -193,7 +196,7 @@ function Navbar() {
                 />
               </svg>
             </Link>
-            <Link to="/">
+            <button onClick={() => dispatch(logout())}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -208,7 +211,7 @@ function Navbar() {
                   d="M4 6h16M4 12h16M4 18h16"
                 />
               </svg>
-            </Link>
+            </button>
           </div>
         </div>
         <div className="w-full hidden lg:block">
