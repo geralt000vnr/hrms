@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
 // import profile from "../assets/profile.JPG";
 import { logout } from "../redux/Action/AuthAction";
+import { tempNotificationArr } from "./TempData";
 
 function Navbar() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state);
   const currentUser = user?.currentUser;
+  const [toggleNotification, setToggleNotification] = useState(false);
   return (
     <>
       <div
@@ -74,7 +76,7 @@ function Navbar() {
               </svg>
               Chat
             </NavLink>
-            <NavLink to="/holidayEmployee" className="active:underline">
+            <NavLink to="/holidayEmployee/table" className="active:underline">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 inline mx-2"
@@ -91,7 +93,7 @@ function Navbar() {
               </svg>
               Holidays
             </NavLink>
-            <NavLink to="/projectsemployee" className="active:underline">
+            <NavLink to="/projectsEmployee/table" className="active:underline">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 inline mx-2"
@@ -108,7 +110,7 @@ function Navbar() {
               </svg>
               Projects
             </NavLink>
-            <NavLink to="/taskemployee" className="active:underline">
+            <NavLink to="/taskEmployee/table" className="active:underline">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 inline mx-2"
@@ -160,7 +162,7 @@ function Navbar() {
             </NavLink>
           </div>
           <div className="justify-between gap-8 flex text-xl">
-            <Link to="/">
+            <button onClick={() => setToggleNotification(!toggleNotification)}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -175,7 +177,7 @@ function Navbar() {
                   d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
                 />
               </svg>
-            </Link>
+            </button>
             <Link to="/">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -218,7 +220,6 @@ function Navbar() {
         </div>
         <div className="w-full hidden lg:block">
           <div className="w-80 mt-16 ml-auto justify-center flex flex-col">
-            {console.log("userAvtar", currentUser)}
             <img
               src={currentUser.userAvtar}
               alt="profile"
@@ -270,6 +271,37 @@ function Navbar() {
                   </div>
                 </div>
               </section>
+              <div
+                className={`${
+                  toggleNotification ? "" : "hidden"
+                } absolute top-16 right-44 bg-slate-100 dark:bg-zinc-800 text-teal-800 dark:text-white rounded-md w-72 py-2`}
+              >
+                {tempNotificationArr &&
+                  tempNotificationArr.length &&
+                  tempNotificationArr.map((item) => {
+                    return (
+                      <div key={item.id}>
+                        <div className="w-full p-2 hover:bg-zinc-900">
+                          <div className="flex justify-between">
+                            <span className="block mx-2 font-semibold text-base text-gray-600 dark:text-gray-400">
+                              {item.title.length > 15
+                                ? item.title.slice(0, 16) + "..."
+                                : item.title}
+                            </span>
+                            <span className="block ml-2 text-sm text-gray-600 dark:text-gray-400">
+                              {item.time}
+                            </span>
+                          </div>
+                          <span className="block ml-2 text-sm text-gray-600 dark:text-gray-400">
+                            {item.discription.length > 40
+                              ? item.discription.slice(0, 41) + "..."
+                              : item.discription}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
             </div>
           </div>
         </div>

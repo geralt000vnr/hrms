@@ -26,3 +26,19 @@ export async function getUserDetails(userID) {
     },
   });
 }
+
+export async function addTask(data) {
+  return http.post(API_PATH.apiAddTask, data, {
+    headers: {
+      Authorization: apiToken,
+    },
+  });
+}
+
+export async function getprojectlist(data) {
+  return http.post(API_PATH.apiProject);
+}
+
+export async function getTaskList() {
+  return http.get("/");
+}

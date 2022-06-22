@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseURL = "https://rupalibhargava.pythonanywhere.com";
+const baseURL = "http://localhost:9000";
 
 axios.defaults.baseURL = baseURL;
 
