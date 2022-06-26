@@ -9,42 +9,6 @@ export function getRandomColor() {
   return color;
 }
 
-// export function Input({
-//   value,
-//   onChange,
-//   label,
-//   id,
-//   required,
-//   type,
-//   disabled,
-// }) {
-//   return (
-//     <div title={label}>
-//       <div className="relative z-0 w-full mb-6 group">
-//         <input
-//           type={type}
-//           name={id}
-//           id={id}
-//           className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-//           placeholder=" "
-//           required={required}
-//           value={value}
-//           onChange={onChange}
-//           disabled={disabled ? disabled : false}
-//         />
-//         <label
-//           htmlFor={id}
-//           className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-//         >
-//           {label}
-//           &nbsp;
-//           {required && "*"}
-//         </label>
-//       </div>
-//     </div>
-//   );
-// }
-
 export const Input = ({
   value,
   onChange,
@@ -59,10 +23,10 @@ export const Input = ({
 }) => {
   return (
     <div>
-      <div class="mb-6">
+      <div className="mb-6">
         <label
-          for={id}
-          class="block text-sm font-medium text-gray-500 dark:text-gray-400"
+          htmlFor={id}
+          className="block text-sm font-normal text-gray-500 dark:text-gray-400"
         >
           {label}
           &nbsp;
@@ -75,11 +39,13 @@ export const Input = ({
           onChange={onChange}
           required={required ? required : false}
           disabled={disabled ? disabled : false}
-          className="border-b-2 border-gray-300 dark:border-gray-600 text-gray-900 focus:outline-none w-full p-2.5 bg-gray-800 dark:text-white text-sm"
-          placeholder={placeholder ? placeholder : ""}
+          className={`border-b-2 ${
+            inValid ? "border-red-600" : "border-gray-300 dark:border-gray-600"
+          } text-gray-900 focus:outline-none w-full p-2.5 bg-gray-800 dark:text-white text-sm`}
+          placeholder={placeholder ? placeholder : "Enter " + label}
         />
         {inValid && (
-          <p class="mt-2 ml-2 text-sm text-red-600 dark:text-red-500 italic">
+          <p className="mt-2 ml-2 text-sm text-red-600 dark:text-red-500 italic">
             {inValidMsg}
           </p>
         )}
@@ -88,27 +54,46 @@ export const Input = ({
   );
 };
 
-export function TextArea({ value, onChange, label, id, required, type }) {
+export function TextArea({
+  value,
+  onChange,
+  label,
+  id,
+  required,
+  type,
+  placeholder,
+  inValid,
+  inValidMsg,
+}) {
   return (
     <div title={label}>
       <div className="relative z-0 w-full mb-6 group">
+        <label
+          htmlFor={id}
+          className="block text-sm font-normal text-gray-500 dark:text-gray-400"
+        >
+          {label}
+          &nbsp;
+          {required && "*"}
+        </label>
         <textarea
           type={type}
           name={id}
           id={id}
-          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer overflow-hidden"
-          placeholder=" "
+          className={`border-b-2 ${
+            inValid ? "border-red-600" : "border-gray-300 dark:border-gray-600"
+          } text-gray-900 focus:outline-none w-full p-2.5 bg-gray-800 dark:text-white text-sm mt-1`}
           required={required}
           value={value}
           onChange={onChange}
           rows={5}
+          placeholder={placeholder ? placeholder : "Write here..."}
         />
-        <label
-          htmlFor={id}
-          className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-        >
-          {label} *
-        </label>
+        {inValid && (
+          <p className="mt-2 ml-2 text-sm text-red-600 dark:text-red-500 italic">
+            {inValidMsg}
+          </p>
+        )}
       </div>
     </div>
   );
@@ -151,8 +136,8 @@ export const Dropdown = ({
   return (
     <div className="relative z-0 w-full mb-6 group" title={label}>
       <label
-        for={id}
-        class="block text-sm font-medium text-gray-500 dark:text-gray-400"
+        htmlFor={id}
+        className="block text-sm font-normal text-gray-500 dark:text-gray-400"
       >
         {label}
         &nbsp;
@@ -234,7 +219,7 @@ export function Range({ value, onChange, label, id, required }) {
       <div className="relative pt-1">
         <label
           htmlFor={id}
-          className="form-label text-sm text-gray-500 dark:text-gray-400 duration-300 origin-[0]"
+          className="block text-sm font-normal text-gray-500 dark:text-gray-400"
         >
           {label}
           &nbsp;

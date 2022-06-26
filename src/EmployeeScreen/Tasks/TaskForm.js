@@ -5,7 +5,7 @@ import {
   Input,
   Range,
 } from "../../components/CustomComponents";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   tempProjectDropDownArr,
   tempTeamsArr,
@@ -39,7 +39,7 @@ function TaskForm() {
         })
         .catch((err) => console.log("error", err));
     }
-  }, []);
+  }, [id, tab]);
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
