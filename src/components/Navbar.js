@@ -110,7 +110,7 @@ function Navbar() {
               </svg>
               Projects
             </NavLink>
-            <NavLink to="/taskEmployee/table" className="active:underline">
+            <NavLink to="/taskEmployee/table/list" className="active:underline">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 inline mx-2"

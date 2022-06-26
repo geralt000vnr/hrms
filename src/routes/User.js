@@ -77,7 +77,7 @@ function User() {
           <Route path={"/Holidayemployee/:tab"} element={<HolidayTabs />} />
           <Route path={"/projectsEmployee/:tab"} element={<ProjectsTab />} />
           <Route path={"/profileemployee"} element={<ProfileEmployee />} />
-          <Route path={"/taskEmployee/:tab"} element={<TaskTabs />} />
+          <Route path={"/taskEmployee/:tab/:id"} element={<TaskTabs />} />
           <Route path={"/listemployee"} element={<EmployeeList />} />
           <Route path={"*"} element={<EmployeeHomeScreen />} />
         </Routes>

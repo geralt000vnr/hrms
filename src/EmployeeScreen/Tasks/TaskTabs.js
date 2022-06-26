@@ -15,14 +15,14 @@ function TaskTabs() {
         Tasks
         <div className="flex">
           <button
-            onClick={() => navigate("/taskEmployee/issueList")}
+            onClick={() => navigate("/taskEmployee/issueList/issues")}
             className="text-base flex items-center bg-blue-500 hover:bg-blue-700 duration-300 px-3 py-2 rounded-md"
           >
             Check Issues
           </button>
           {tab !== "add" && (
             <button
-              onClick={() => navigate("/taskEmployee/add")}
+              onClick={() => navigate("/taskEmployee/add/form")}
               className="text-base flex items-center bg-green-500 px-3 py-2 rounded-md ml-2"
             >
               Add Task

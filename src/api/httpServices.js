@@ -9,6 +9,7 @@ function setJwt(jwt) {
 const http = {
   get: axios.get,
   post: axios.post,
+  put: axios.put,
   setJwt,
 };
 

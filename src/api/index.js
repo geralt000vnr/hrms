@@ -28,11 +28,7 @@ export async function getUserDetails(userID) {
 }
 
 export async function addTask(data) {
-  return http.post(API_PATH.apiAddTask, data, {
-    headers: {
-      Authorization: apiToken,
-    },
-  });
+  return http.post(API_PATH.apiAddTask, data);
 }
 
 export async function getprojectlist(data) {
@@ -40,5 +36,13 @@ export async function getprojectlist(data) {
 }
 
 export async function getTaskList() {
-  return http.get("/");
+  return http.get(API_PATH.apiGetTaskList);
+}
+
+export async function getTaskDetails(id) {
+  return http.get(API_PATH.apiGetTaskDetails + id);
+}
+
+export async function updateTask() {
+  return http.put(API_PATH.apiUpdateTask);
 }

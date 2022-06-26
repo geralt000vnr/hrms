@@ -1,18 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dropdown,
   FormEndBtn,
   Input,
   Range,
 } from "../../components/CustomComponents";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   tempProjectDropDownArr,
   tempTeamsArr,
 } from "./../../components/TempData";
-import { addTask, getprojectlist } from "../../api";
+import { addTask, getprojectlist, getTaskDetails, updateTask } from "../../api";
 
 function TaskForm() {
+  const { tab, id } = useParams();
   const navigate = useNavigate();
   const [taskName, setTaskName] = useState("");
   const [projectName, setProjectName] = useState("");
@@ -22,23 +23,49 @@ function TaskForm() {
   const [assignedBy, setAssignedBy] = useState("");
   const [assignedTo, setAssignedTo] = useState("");
 
+  useEffect(() => {
+    if (tab === "open" && id) {
+      console.log("location", id);
+      getTaskDetails(id)
+        .then((res) => {
+          setTaskName(res.data.taskName);
+          setProjectName(res.data.projectName);
+          setRangeVal(res.data.progressTillNow);
+          setTeam(res.data.teamName);
+          setStatus(res.data.status);
+          setAssignedBy(res.data.assignedBy);
+          setAssignedTo(res.data.assignedTo);
+          console.log("GetDetailsResponse", res.data);
+        })
+        .catch((err) => console.log("error", err));
+    }
+  }, []);
+
   const handleSubmitForm = (e) => {
     e.preventDefault();
-    const data = new FormData();
-    data.append("taskName", taskName);
-    data.append("projectName", projectName);
-    data.append("teamName", team);
-    data.append("status", status);
-    data.append("assignedBy", assignedBy);
-    data.append("assignedTo", assignedTo);
-    data.append("progress", rangeVal);
-    addTask(data)
-      .then((res) => console.log("response", res))
-      .catch((err) => console.log("error", err));
-
-    getprojectlist()
-      .then((res) => console.log("response", res))
-      .catch((err) => console.log("error", err));
+    console.log("addapihitinf ");
+    let data = {};
+    data.taskName = taskName;
+    data.projectName = projectName.target.value;
+    data.teamName = team.target.value;
+    data.status = status;
+    data.assignedBy = assignedBy;
+    data.assignedTo = assignedTo;
+    data.progressTillNow = rangeVal;
+    data.id = id;
+    if (tab === "open") {
+      console.log("addapihitinf openn");
+      updateTask()
+        .then((res) => console.log("response", res))
+        .catch((err) => console.log("error", err));
+    } else {
+      addTask(data)
+        .then((res) => console.log("response", res))
+        .catch((err) => console.log("error", err));
+    }
+    // getprojectlist()
+    //   .then((res) => console.log("response", res))
+    //   .catch((err) => console.log("error", err));
   };
 
   return (
@@ -51,23 +78,27 @@ function TaskForm() {
           id="taskName"
           required={true}
           type={"text"}
+          // inValid
+          // inValidMsg={"helelo"}
         />
-        <Dropdown
-          dropdownArr={tempProjectDropDownArr}
-          selectedValue={projectName}
-          setSelectedValue={setProjectName}
-          label="Project Name"
-          id={"projectName"}
-          required={true}
-        />
-        <Dropdown
-          dropdownArr={tempTeamsArr}
-          selectedValue={team}
-          setSelectedValue={setTeam}
-          label="Team Name"
-          id={"teamName"}
-          required={true}
-        />
+        <div className="flex gap-10">
+          <Dropdown
+            dropdownArr={tempProjectDropDownArr}
+            selectedValue={projectName}
+            setSelectedValue={setProjectName}
+            label="Project Name"
+            id={"projectName"}
+            required={true}
+          />
+          <Dropdown
+            dropdownArr={tempTeamsArr}
+            selectedValue={team}
+            setSelectedValue={setTeam}
+            label="Team Name"
+            id={"teamName"}
+            required={true}
+          />
+        </div>
         <Input
           value={status}
           onChange={(e) => setStatus(e.target.value)}
@@ -75,7 +106,7 @@ function TaskForm() {
           id="taskStatus"
           required={true}
           type={"text"}
-          disabled={true}
+          // disabled={true}
         />
         <Input
           value={assignedBy}
@@ -100,21 +131,22 @@ function TaskForm() {
           id="TaskRangeForm"
           label="Progress Till Now"
         />
-        {/* <FormEndBtn
+        <FormEndBtn
           onSubmit={handleSubmitForm}
           onCancel={(e) => {
             e.preventDefault();
             navigate(-1);
           }}
-        /> */}
-        <button
+        />
+        {/* <button
           onClick={handleSubmitForm}
           title="Submit"
           type="submit"
           className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 mx-1 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
-          Submits
-        </button>
+          Submit
+        </button> */}
+        {/* <TestForm /> */}
       </form>
     </div>
   );

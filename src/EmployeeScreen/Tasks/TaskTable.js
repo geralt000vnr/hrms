@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getTaskList } from "../../api";
 // import { tempTaskData } from "../../components/TempData";
 
@@ -34,7 +34,7 @@ function TaskTable() {
                   ? "from-yellow-500 via-orange-500 to-red-600"
                   : "from-slate-700 via-gray-700 to-zinc-800"
               }`}
-              key={item.id}
+              key={item._id}
             >
               <div>
                 <span className="text-xs">{item.teamName}</span>
@@ -42,14 +42,12 @@ function TaskTable() {
               </div>
               <div>
                 <p className="text-xl font-bold mt-3 mb-5">{item.taskName}</p>
-                <button
-                  onClick={() =>
-                    navigate(`/taskEmployee/open`, { id: item.id })
-                  }
+                <Link
+                  to={`/taskEmployee/open/${item._id}`}
                   className="bg-green-500 rounded-md px-3 py-2 float-right"
                 >
                   open
-                </button>
+                </Link>
               </div>
 
               <div className="text-xs mb-2">
