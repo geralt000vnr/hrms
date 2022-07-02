@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch } from "react-redux";
 import { loginAction } from "../redux/Action/AuthAction";
+import { Link } from "react-router-dom";
 
 const Auth = () => {
   const [id, setId] = useState("neeraj@gmail.com");
@@ -50,7 +51,7 @@ const Auth = () => {
             </div>
             <div className="w-full py-6 z-20">
               <h1 className="my-6 text-4xl text-black dark:text-gray-200">
-                Hello World
+                Login to Your Account
               </h1>
               <form className="sm:w-2/3 w-full px-4 lg:px-0 mx-auto">
                 <div className="pb-2 pt-4">
@@ -83,9 +84,10 @@ const Auth = () => {
                     onClick={handleClick}
                     className="uppercase block w-full p-4 text-lg rounded-full bg-indigo-500 hover:bg-indigo-600 focus:outline-none"
                   >
-                    sign in
+                    Sign Up
                   </button>
                 </div>
+                <Link to={"/"}>Login</Link>
               </form>
             </div>
           </div>

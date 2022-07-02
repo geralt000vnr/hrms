@@ -43,6 +43,10 @@ export async function getTaskDetails(id) {
   return http.get(API_PATH.apiGetTaskDetails + id);
 }
 
-export async function updateTask() {
-  return http.put(API_PATH.apiUpdateTask);
+export async function updateTask(data) {
+  return http.put(API_PATH.apiUpdateTask, data);
+}
+
+export async function getCommonComponent() {
+  return http.get(API_PATH.apiCommonComponent);
 }
