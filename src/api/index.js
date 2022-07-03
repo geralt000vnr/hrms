@@ -10,13 +10,7 @@ export async function getAndSetJwt() {
 }
 
 export async function login(data) {
-  return http.post(API_PATH.apiUserLogin, data, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-      Accept: "*/*",
-      Authorization: apiToken,
-    },
-  });
+  return http.post(API_PATH.apiUserLogin, data);
 }
 
 export async function getUserDetails(userID) {
@@ -50,3 +44,14 @@ export async function updateTask(data) {
 export async function getCommonComponent() {
   return http.get(API_PATH.apiCommonComponent);
 }
+
+export async function addUser(data) {
+  return http.post(API_PATH.apiAddUser, data);
+}
+
+// {
+//   headers: {
+//     "Content-Type": "multipart/form-data",
+//     Accept: "*/*",
+//     Authorization: apiToken,
+//   },

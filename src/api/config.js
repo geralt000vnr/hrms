@@ -1,5 +1,5 @@
 const API_PATH = {
-  apiUserLogin: "/api/user/login",
+  apiUserLogin: "/api/login",
   apiAddUser: "/api/user/addUser",
   apiGetUser: "/api/users/detail/",
   apiAddTask: "/api/task/addTask",
