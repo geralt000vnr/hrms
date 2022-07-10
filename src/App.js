@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import Auth from "./routes/Auth";
 import User from "./routes/User";
+import "./App.css";
 
 function App() {
   const { user } = useSelector((state) => state);

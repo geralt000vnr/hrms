@@ -19,7 +19,7 @@ function TaskForm() {
   const [projectName, setProjectName] = useState("");
   const [rangeVal, setRangeVal] = useState(1);
   const [team, setTeam] = useState("");
-  const [status, setStatus] = useState("In Progress");
+  const [status, setStatus] = useState("");
   const [assignedBy, setAssignedBy] = useState("");
   const [assignedTo, setAssignedTo] = useState("");
 

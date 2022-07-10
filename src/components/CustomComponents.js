@@ -158,11 +158,7 @@ export const Dropdown = ({
           dropdownArr.map((item) => {
             return (
               <option
-                className={
-                  item.value === "inProcess"
-                    ? "text-blue-500 dark:bg-gray-800 mx-3"
-                    : "text-gray-100 dark:bg-gray-800 mx-1"
-                }
+                className={"text-gray-100 dark:bg-gray-800 mx-1"}
                 value={item.value === selectedValue}
                 selected={item.value === selectedValue}
               >
