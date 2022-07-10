@@ -20,7 +20,7 @@ function TaskTable() {
   }, []);
 
   return (
-    <div>
+    <div className="min-h-[55vh]">
       {taskList &&
         taskList.map((item) => {
           return (

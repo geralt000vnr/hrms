@@ -45,6 +45,10 @@ export async function getCommonComponent() {
   return http.get(API_PATH.apiCommonComponent);
 }
 
+export async function getProjectList() {
+  return http.get(API_PATH.apiGetProject);
+}
+
 export async function addUser(data) {
   return http.post(API_PATH.apiAddUser, data);
 }

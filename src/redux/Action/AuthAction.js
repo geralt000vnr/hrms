@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import { addUser, login } from "../../api";
+import { cleanLocalStorage } from "../../utils/storage";
 import { ActionType } from "../Constants/ActionType";
 
 export const loginAction = (data) => async (dispatch) => {
@@ -42,8 +43,8 @@ export const loginAction = (data) => async (dispatch) => {
 // };
 
 export const logout = () => async (dispatch) => {
-  dispatch({ type: ActionType.LOGOUT, payload: { loading: true } });
-  // cleanLocalStorage();
+  dispatch({ type: ActionType.LOADING, payload: true });
+  cleanLocalStorage();
   toast.success("Logged Out Successfully");
 
   dispatch({

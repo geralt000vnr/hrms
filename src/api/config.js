@@ -8,6 +8,7 @@ const API_PATH = {
   apiGetTaskDetails: "/api/task/getTaskDetails/",
   apiUpdateTask: "/api/task/UpdateTask",
   apiCommonComponent: "/api/common/getCommonComponent",
+  apiGetProject: "/api/project/getProjectList",
 };
 
 export default API_PATH;
