@@ -1,4 +1,6 @@
 import { useSelector } from "react-redux";
+import { Route, Routes } from "react-router-dom";
+import SignUp from "./components/Auth/SIgnUp";
 import Auth from "./routes/Auth";
 import User from "./routes/User";
 import "./App.css";
@@ -9,7 +11,15 @@ function App() {
   // const currentUser = true;
   return (
     <div className="bg-white dark:bg-zinc-800 min-h-screen">
-      {!currentUser ? <Auth /> : <User />}
+      {!currentUser ? (
+        <Routes>
+          <Route path={"/"} element={<Auth />} />
+          <Route path={"/signup"} element={<SignUp />} />
+          <Route path={"*"} element={<Auth />} />
+        </Routes>
+      ) : (
+        <User />
+      )}
     </div>
   );
 }

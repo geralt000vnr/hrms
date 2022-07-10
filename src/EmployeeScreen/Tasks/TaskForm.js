@@ -10,7 +10,13 @@ import {
   tempProjectDropDownArr,
   tempTeamsArr,
 } from "./../../components/TempData";
-import { addTask, getprojectlist, getTaskDetails, updateTask } from "../../api";
+import {
+  addTask,
+  getCommonComponent,
+  getprojectlist,
+  getTaskDetails,
+  updateTask,
+} from "../../api";
 
 function TaskForm() {
   const { tab, id } = useParams();
@@ -22,8 +28,12 @@ function TaskForm() {
   const [status, setStatus] = useState("");
   const [assignedBy, setAssignedBy] = useState("");
   const [assignedTo, setAssignedTo] = useState("");
+  const [statusArr, setStatusArr] = useState([]);
 
   useEffect(() => {
+    getCommonComponent()
+      .then((res) => setStatusArr(res.data))
+      .catch((err) => console.log("err : ", err));
     if (tab === "open" && id) {
       console.log("location", id);
       getTaskDetails(id)
@@ -44,21 +54,22 @@ function TaskForm() {
   const handleSubmitForm = (e) => {
     e.preventDefault();
     console.log("addapihitinf ");
-    let data = {};
-    data.taskName = taskName;
-    data.projectName = projectName.target.value;
-    data.teamName = team.target.value;
-    data.status = status;
-    data.assignedBy = assignedBy;
-    data.assignedTo = assignedTo;
-    data.progressTillNow = rangeVal;
-    data.id = id;
+    let data = new FormData();
+    data.append("taskName", taskName);
+    // data.projectName = projectName.target.value;
+    // data.teamName = team.target.value;
+    // data.status = status;
+    // data.assignedBy = assignedBy;
+    // data.assignedTo = assignedTo;
+    // data.progressTillNow = rangeVal;
+    // data.id = id;
     if (tab === "open") {
       console.log("addapihitinf openn");
       updateTask()
         .then((res) => console.log("response", res))
         .catch((err) => console.log("error", err));
     } else {
+      console.log("addapihitinf adds");
       addTask(data)
         .then((res) => console.log("response", res))
         .catch((err) => console.log("error", err));
@@ -99,13 +110,13 @@ function TaskForm() {
             required={true}
           />
         </div>
-        <Input
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
+        <Dropdown
+          dropdownArr={statusArr}
+          selectedValue={status}
+          setSelectedValue={setStatus}
           label="Status"
           id="taskStatus"
           required={true}
-          type={"text"}
           // disabled={true}
         />
         <Input
