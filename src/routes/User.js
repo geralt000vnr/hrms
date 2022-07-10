@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Route, Routes, useParams } from "react-router-dom";
+import { Navigate, Route, Routes, useParams } from "react-router-dom";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import CalenderEmployee from "../EmployeeScreen/CalenderEmployee";
@@ -71,7 +71,7 @@ function User() {
       <>
         <Navbar />
         <Routes>
-          <Route path={"/"} element={<EmployeeHomeScreen />} />
+          <Route path={"/dashboard"} element={<EmployeeHomeScreen />} />
           <Route path={"/calenderemployee"} element={<CalenderEmployee />} />
           <Route path={"/chatemployee"} element={<ChatEmployee />} />
           <Route path={"/Holidayemployee/:tab"} element={<HolidayTabs />} />
@@ -79,7 +79,7 @@ function User() {
           <Route path={"/profileemployee"} element={<ProfileEmployee />} />
           <Route path={"/taskEmployee/:tab/:id"} element={<TaskTabs />} />
           <Route path={"/listemployee"} element={<EmployeeList />} />
-          <Route path={"*"} element={<EmployeeHomeScreen />} />
+          <Route path={"*"} element={<Navigate to={"/dashboard"} />} />
         </Routes>
         <Footer />
       </>

@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import { addUser, login } from "../../api";
+import { cleanLocalStorage, getUserInfoFromJWT } from "../../utils/storage";
 import { ActionType } from "../Constants/ActionType";
 
 export const loginAction = (data) => async (dispatch) => {
@@ -20,8 +21,10 @@ export const loginAction = (data) => async (dispatch) => {
   // };
   login(data)
     .then((response) => {
-      console.log("reponseLogin", response.data);
       dispatch({ type: ActionType.LOGIN, payload: response.data });
+      localStorage.setItem("HRMSUser", response.data.token);
+      const jwt = getUserInfoFromJWT(response.data.token);
+      console.log("reponseLoginJWT", jwt);
     })
     .catch((err) => {
       toast.error("Invalid Email or Password");
@@ -43,8 +46,9 @@ export const loginAction = (data) => async (dispatch) => {
 
 export const logout = () => async (dispatch) => {
   dispatch({ type: ActionType.LOGOUT, payload: { loading: true } });
-  // cleanLocalStorage();
-  toast.success("Logged Out Successfully");
+  cleanLocalStorage();
+  const token = localStorage.getItem("HRMSUser");
+  if (!token) toast.success("Logged Out Successfully");
 
   dispatch({
     type: ActionType.LOGOUT,
