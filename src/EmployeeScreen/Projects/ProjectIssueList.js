@@ -66,7 +66,9 @@ function ProjectIssueList() {
                       ? item.projectName.slice(0, 11) + "..."
                       : item.projectName}
                   </td>
-                  <td className="text-center py-2">{item.projectCode}</td>
+                  <td className="text-center py-2 font-roboto">
+                    {item.projectCode}
+                  </td>
                   <td
                     className="text-center py-2 max-w-[170px]"
                     title={item.projectDescription}
