@@ -54,22 +54,24 @@ function TaskForm() {
   const handleSubmitForm = (e) => {
     e.preventDefault();
     console.log("addapihitinf ");
-    let data = new FormData();
-    data.append("taskName", taskName);
-    // data.projectName = projectName.target.value;
-    // data.teamName = team.target.value;
-    // data.status = status;
-    // data.assignedBy = assignedBy;
-    // data.assignedTo = assignedTo;
-    // data.progressTillNow = rangeVal;
-    // data.id = id;
+    let data = {};
+    // let data = new FormData();
+    // data.append("taskName", taskName);
+    data.taskName = taskName;
+    data.projectName = projectName.target.value;
+    data.teamName = team.target.value;
+    data.status = status.target.value;
+    data.assignedBy = assignedBy;
+    data.assignedTo = assignedTo;
+    data.progressTillNow = rangeVal;
+    data.id = id;
     if (tab === "open") {
       console.log("addapihitinf openn");
       updateTask()
         .then((res) => console.log("response", res))
         .catch((err) => console.log("error", err));
     } else {
-      console.log("addapihitinf adds");
+      console.log("addapihitinf adds", data, status.target);
       addTask(data)
         .then((res) => console.log("response", res))
         .catch((err) => console.log("error", err));
