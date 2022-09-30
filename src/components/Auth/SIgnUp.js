@@ -11,6 +11,7 @@ const SignUp = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [passcode, setPasscode] = useState("");
+  const [profilePic, setProfilePic] = useState();
   const dispatch = useDispatch();
 
   const handleClick = async (e) => {
@@ -18,19 +19,29 @@ const SignUp = () => {
       toast.error("FirstName Is Required");
     }
     e.preventDefault();
-    let data = {
-      firstName,
-      lastName,
-      email,
-      password: passcode,
-    };
+    let data = new FormData();
+    data.append("firstName", firstName);
+    data.append("lastName", lastName);
+    data.append("email", email);
+    data.append("password", passcode);
+    data.append("profilePic", profilePic);
+    // let data = {
+    //   firstName,
+    //   lastName,
+    //   email,
+    //   password: passcode,
+    //   profilePic,
+    // };
+    console.log("profilepicconsoled", profilePic);
+    // return;
     const response = await dispatch(addUserAction(data));
-    if (response) {
-      setFirstName("");
-      setLastName("");
-      setEmail("");
-      setPasscode("");
-    }
+    // if (response) {
+    //   setFirstName("");
+    //   setLastName("");
+    //   setEmail("");
+    //   setPasscode("");
+    //   setProfilePic();
+    // }
   };
 
   return (
@@ -111,6 +122,20 @@ const SignUp = () => {
                     name="password"
                     id="password"
                     placeholder="Password"
+                  />
+                </div>
+                <div className="pb-2 pt-4">
+                  <input
+                    // value={passcode}
+                    onChange={(e) => {
+                      console.log("profilepicconsoled...", e.target.files);
+                      setProfilePic(e.target.files[0]);
+                    }}
+                    className="block w-full p-4 text-lg rounded-sm dark:bg-black bg-white text-gray-800 dark:text-gray-200 focus:outline-none"
+                    type="file"
+                    name="profilePic"
+                    id="profilePic"
+                    placeholder="Profile Picture"
                   />
                 </div>
                 <div className="text-right text-gray-600 hover:underline hover:text-gray-700">

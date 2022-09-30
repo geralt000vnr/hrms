@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import { addUser, login } from "../../api";
+import { addUser, getUserDetails, login } from "../../api";
 import { ActionType } from "../Constants/ActionType";
 
 export const loginAction = (data) => async (dispatch) => {
@@ -22,6 +22,7 @@ export const loginAction = (data) => async (dispatch) => {
     .then((response) => {
       console.log("reponseLogin", response.data);
       dispatch({ type: ActionType.LOGIN, payload: response.data });
+      // userDetails(response.data.id);
     })
     .catch((err) => {
       toast.error("Invalid Email or Password");
@@ -53,15 +54,16 @@ export const logout = () => async (dispatch) => {
   dispatch({ type: ActionType.LOADING, payload: false });
 };
 
-// export const userDetails = (userId) => async (dispatch) => {
-//   dispatch({ type: ActionType.LOADING, payload: true });
-//   const response = await getUserDetails(userId);
-//   dispatch({
-//     type: ActionType.GET_USER_DETAILS,
-//     payload: response.data?.data,
-//   });
-//   dispatch({ type: ActionType.LOADING, payload: false });
-// };
+export const userDetails = (userId) => async (dispatch) => {
+  dispatch({ type: ActionType.LOADING, payload: true });
+  const response = await getUserDetails(userId);
+  console.log("response of user Details", response.data);
+  dispatch({
+    type: ActionType.GET_USER_DETAILS,
+    payload: response.data?.data,
+  });
+  dispatch({ type: ActionType.LOADING, payload: false });
+};
 
 export const addUserAction = (data) => async (dispatch) => {
   dispatch({ type: ActionType.LOADING, payload: true });
