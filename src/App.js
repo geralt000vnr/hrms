@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import SignUp from "./components/Auth/SIgnUp";
 import Auth from "./routes/Auth";
 import User from "./routes/User";
+import "./App.css";
 
 function App() {
   const { user } = useSelector((state) => state);
