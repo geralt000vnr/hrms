@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
-import profile from "../assets/profile.JPG";
+// import profile from "../assets/profile.JPG";
+import { logout } from "../redux/Action/AuthAction";
+import { tempNotificationArr } from "./TempData";
 
 function Navbar() {
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state);
+  const currentUser = user?.currentUser;
+  const [toggleNotification, setToggleNotification] = useState(false);
   return (
     <>
       <div
@@ -49,7 +56,7 @@ function Navbar() {
                   d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                 />
               </svg>
-              Calender
+              Calendar
             </Link>
             <NavLink to="/chatemployee" className="active:underline">
               {" "}
@@ -69,7 +76,7 @@ function Navbar() {
               </svg>
               Chat
             </NavLink>
-            <NavLink to="/invoiceemployee" className="active:underline">
+            <NavLink to="/holidayEmployee/table" className="active:underline">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 inline mx-2"
@@ -84,9 +91,9 @@ function Navbar() {
                   d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
                 />
               </svg>
-              Invoice
+              Holidays
             </NavLink>
-            <NavLink to="/projectsemployee" className="active:underline">
+            <NavLink to="/projectsEmployee/table" className="active:underline">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 inline mx-2"
@@ -103,25 +110,7 @@ function Navbar() {
               </svg>
               Projects
             </NavLink>
-            <NavLink to="/profileemployee" className="active:underline">
-              {" "}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 inline mx-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1}
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                />
-              </svg>
-              Profile
-            </NavLink>
-            <NavLink to="/taskemployee" className="active:underline">
+            <NavLink to="/taskEmployee/table/list" className="active:underline">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 inline mx-2"
@@ -153,9 +142,27 @@ function Navbar() {
               </svg>
               Other Employees
             </NavLink>
+            <NavLink to="/profileemployee" className="active:underline">
+              {" "}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 inline mx-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1}
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
+              </svg>
+              Profile
+            </NavLink>
           </div>
           <div className="justify-between gap-8 flex text-xl">
-            <Link to="/">
+            <button onClick={() => setToggleNotification(!toggleNotification)}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -170,7 +177,7 @@ function Navbar() {
                   d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
                 />
               </svg>
-            </Link>
+            </button>
             <Link to="/">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -193,7 +200,7 @@ function Navbar() {
                 />
               </svg>
             </Link>
-            <Link to="/">
+            <button onClick={() => dispatch(logout())}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -208,15 +215,15 @@ function Navbar() {
                   d="M4 6h16M4 12h16M4 18h16"
                 />
               </svg>
-            </Link>
+            </button>
           </div>
         </div>
         <div className="w-full hidden lg:block">
           <div className="w-80 mt-16 ml-auto justify-center flex flex-col">
             <img
-              src={profile}
+              src={currentUser.userAvtar}
               alt="profile"
-              className="rounded-full h-32 w-32 mx-auto"
+              className="rounded-full h-32 w-32 mx-auto overflow-hidden"
             />
             <div className="mx-auto my-5 text-2xl font-bold">Neeraj Yadav</div>
             <div>
@@ -264,6 +271,37 @@ function Navbar() {
                   </div>
                 </div>
               </section>
+              <div
+                className={`${
+                  toggleNotification ? "" : "hidden"
+                } absolute top-16 right-44 bg-slate-100 dark:bg-zinc-800 text-teal-800 dark:text-white rounded-md w-72 py-2`}
+              >
+                {tempNotificationArr &&
+                  tempNotificationArr.length &&
+                  tempNotificationArr.map((item) => {
+                    return (
+                      <div key={item.id}>
+                        <div className="w-full p-2 hover:bg-zinc-900">
+                          <div className="flex justify-between">
+                            <span className="block mx-2 font-semibold text-base text-gray-600 dark:text-gray-400">
+                              {item.title.length > 15
+                                ? item.title.slice(0, 16) + "..."
+                                : item.title}
+                            </span>
+                            <span className="block ml-2 text-sm text-gray-600 dark:text-gray-400">
+                              {item.time}
+                            </span>
+                          </div>
+                          <span className="block ml-2 text-sm text-gray-600 dark:text-gray-400">
+                            {item.discription.length > 40
+                              ? item.discription.slice(0, 41) + "..."
+                              : item.discription}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
             </div>
           </div>
         </div>
