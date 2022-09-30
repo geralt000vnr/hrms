@@ -1,27 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getTaskList } from "../../api";
+import LoadingEffect from "../../utils/LoadingEffect";
 // import { tempTaskData } from "../../components/TempData";
 
 function TaskTable() {
   const navigate = useNavigate();
 
+  const [loading, setLoading] = useState(true);
+
   const [taskList, setTaskList] = useState([]);
 
   useEffect(() => {
-    // axios
-    //   .get("http://localhost:9000/")
+    setLoading(true);
     getTaskList()
       .then((res) => {
         setTaskList(res.data);
-        console.log("response", res.data);
+        setLoading(false);
       })
       .catch((err) => console.log("err :", err));
   }, []);
 
   return (
     <div>
-      {taskList &&
+      {loading ? (
+        <LoadingEffect name="tasksTable" />
+      ) : taskList ? (
         taskList.map((item) => {
           return (
             <div
@@ -60,7 +64,10 @@ function TaskTable() {
               </div>
             </div>
           );
-        })}
+        })
+      ) : (
+        "No Data To Show"
+      )}
     </div>
   );
 }
