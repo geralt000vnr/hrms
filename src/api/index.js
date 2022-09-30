@@ -13,13 +13,13 @@ export async function login(data) {
   return http.post(API_PATH.apiUserLogin, data);
 }
 
-export async function getUserDetails(userID) {
-  return http.get(API_PATH.apiGetUser + userID, {
-    headers: {
-      Authorization: apiToken,
-    },
-  });
-}
+// export async function getUserDetails(userID) {
+//   return http.get(API_PATH.apiGetUser + userID, {
+//     headers: {
+//       Authorization: apiToken,
+//     },
+//   });
+// }
 
 export async function addTask(data) {
   return http.post(API_PATH.apiAddTask, data);
@@ -47,6 +47,10 @@ export async function getCommonComponent() {
 
 export async function addUser(data) {
   return http.post(API_PATH.apiAddUser, data);
+}
+
+export async function getUserDetails(userId) {
+  return http.get(API_PATH.apiGetUser + userId);
 }
 
 // {

@@ -1,6 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { userDetails } from "../redux/Action/AuthAction";
 
 function HomeScreen() {
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector((state) => state.user);
+  useEffect(() => {
+    console.log("staes", currentUser.id);
+    dispatch(userDetails(currentUser.id));
+  }, [currentUser]);
+
   return (
     <div className="lg:-mt-80 mt-10 lg:ml-16 ml-5 lg:mr-96 mr-5 h-auto bg-gray-200 dark:bg-gray-800 w-auto rounded-lg">
       <div className="bg-white dark:bg-gray-900 dark:text-white px-10 py-5 rounded-t-lg text-3xl font-semibold text-gray-900">
