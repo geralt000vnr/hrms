@@ -79,7 +79,10 @@ const SignUp = () => {
               <h1 className="my-6 text-4xl text-black dark:text-gray-200">
                 Create New Account
               </h1>
-              <form className="sm:w-2/3 w-full px-4 lg:px-0 mx-auto">
+              <form
+                className="sm:w-2/3 w-full px-4 lg:px-0 mx-auto"
+                encType="multipart/form-data"
+              >
                 <div className="pb-2 pt-4">
                   <input
                     value={firstName}

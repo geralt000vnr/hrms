@@ -50,7 +50,11 @@ export async function getProjectList() {
 }
 
 export async function addUser(data) {
-  return http.post(API_PATH.apiAddUser, data);
+  return http.post(API_PATH.apiAddUser, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 }
 
 export async function getUserDetails(userId) {

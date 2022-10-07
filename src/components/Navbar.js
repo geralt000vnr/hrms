@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
+import { baseURL } from "../api/httpServices";
 // import profile from "../assets/profile.JPG";
 import { logout } from "../redux/Action/AuthAction";
 import { tempNotificationArr } from "./TempData";
@@ -11,6 +12,24 @@ function Navbar() {
   const { user } = useSelector((state) => state);
   const currentUser = user?.currentUser;
   const [toggleNotification, setToggleNotification] = useState(false);
+  const [userImage, setUserImage] = useState("");
+  useEffect(() => {
+    if (user.currentUser?.profilePic) {
+      const base64ToString = btoa(
+        String.fromCharCode(
+          ...new Uint8Array(user.currentUser?.profilePic?.data?.data),
+        ),
+      );
+      localStorage.setItem("userImage", base64ToString);
+      let image = localStorage.getItem("userImage");
+      if (image) {
+        console.log("imagesss", base64ToString);
+        setUserImage(image);
+      }
+    }
+  }, [user]);
+
+  console.log("userImage", user.currentUser?.profilePic?.data?.data);
   return (
     <>
       <div
@@ -221,8 +240,9 @@ function Navbar() {
         <div className="w-full hidden lg:block">
           <div className="w-80 mt-16 ml-auto justify-center flex flex-col">
             <img
-              src={currentUser.userAvtar}
-              alt="profile"
+              // src={baseURL + currentUser.profilePic}
+              src={baseURL + userImage}
+              alt={currentUser.profilePic}
               className="rounded-full h-32 w-32 mx-auto overflow-hidden"
             />
             <div className="mx-auto my-5 text-2xl font-bold">Neeraj Yadav</div>
