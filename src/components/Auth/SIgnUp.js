@@ -2,7 +2,7 @@ import React, { useState } from "react";
 // import { Helmet } from "react-helmet";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { addUserAction } from "../../redux/Action/AuthAction";
 import { toast } from "react-toastify";
 
@@ -13,6 +13,7 @@ const SignUp = () => {
   const [passcode, setPasscode] = useState("");
   const [profilePic, setProfilePic] = useState();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleClick = async (e) => {
     if (!firstName) {
@@ -32,16 +33,16 @@ const SignUp = () => {
     //   password: passcode,
     //   profilePic,
     // };
-    console.log("profilepicconsoled", profilePic);
     // return;
     const response = await dispatch(addUserAction(data));
-    // if (response) {
-    //   setFirstName("");
-    //   setLastName("");
-    //   setEmail("");
-    //   setPasscode("");
-    //   setProfilePic();
-    // }
+    if (response) {
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setPasscode("");
+      setProfilePic();
+      navigate("/login");
+    }
   };
 
   return (
@@ -131,7 +132,6 @@ const SignUp = () => {
                   <input
                     // value={passcode}
                     onChange={(e) => {
-                      console.log("profilepicconsoled...", e.target.files);
                       setProfilePic(e.target.files[0]);
                     }}
                     className="block w-full p-4 text-lg rounded-sm dark:bg-black bg-white text-gray-800 dark:text-gray-200 focus:outline-none"

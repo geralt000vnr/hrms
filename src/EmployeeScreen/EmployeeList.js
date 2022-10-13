@@ -1,6 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getUserList } from "../api";
+import { baseURL } from "../api/httpServices";
 
 function EmployeeList() {
+  const navigate = useNavigate();
+  const [usersList, setUsersList] = useState([]);
+
+  useEffect(() => {
+    getUserList()
+      .then((res) => {
+        setUsersList(res.data);
+        console.log("response", res);
+      })
+      .catch((err) => {
+        console.log("error :", err);
+      });
+  }, []);
+
   return (
     <div className="mt-10 lg:-mt-80 ml-5 lg:ml-16 mr-5 lg:mr-96 min-h-screen min-w-max lg:min-w-0 bg-gray-200 dark:bg-gray-800 w-auto rounded-lg">
       <div className="bg-white dark:bg-gray-900 dark:text-white px-10 py-5 rounded-t-lg text-3xl font-semibold text-gray-900 flex align-center justify-between">
@@ -80,6 +97,105 @@ function EmployeeList() {
                     </tr>
                   </thead>
                   <tbody>
+                    {usersList &&
+                      usersList.map((item) => {
+                        return (
+                          <tr>
+                            <td className="px-5 py-5 border-b border-gray-200 bg-white dark:bg-neutral-900 dark:border-gray-700 text-sm">
+                              <div className="flex items-center">
+                                <div className="flex-shrink-0 w-10 h-10">
+                                  <img
+                                    className="w-full h-full rounded-full"
+                                    src={
+                                      baseURL +
+                                      (item.profilePic ? item.profilePic : "")
+                                    }
+                                    alt={
+                                      item.profilePic ? item.profilePic : "...."
+                                    }
+                                  />
+                                </div>
+                                <div className="ml-3">
+                                  <p className="text-gray-900 dark:text-gray-400 whitespace-no-wrap">
+                                    {item.firstName + " " + item.lastName}
+                                  </p>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="px-5 py-5 border-b border-gray-200 bg-white dark:bg-neutral-900 dark:border-gray-700 text-sm">
+                              <p className="text-gray-900 dark:text-gray-400 whitespace-wrap max-w-[150px]">
+                                {item.degination.length
+                                  ? item.degination.map((val) => val)
+                                  : "-"}
+                              </p>
+                            </td>
+                            <td className="px-5 py-5 border-b border-gray-200 bg-white dark:bg-neutral-900 dark:border-gray-700 text-sm">
+                              <p className="text-gray-900 dark:text-gray-400 whitespace-no-wrap">
+                                {item.department ? item.department : "-"}
+                              </p>
+                            </td>
+                            <td className="px-5 py-5 border-b border-gray-200 bg-white dark:bg-neutral-900 dark:border-gray-700 text-sm">
+                              <p className="text-gray-900 dark:text-gray-400 whitespace-no-wrap">
+                                {item.workingOnProject
+                                  ? item.workingOnProject
+                                  : "-"}
+                              </p>
+                            </td>
+                            <td className="px-5 py-5 border-b border-gray-200 bg-white dark:bg-neutral-900 dark:border-gray-700 text-sm min-w-[150px]">
+                              <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                <span
+                                  aria-hidden
+                                  className="absolute inset-0 bg-green-200 opacity-50 rounded-full"
+                                ></span>
+                                <span className="relative dark:text-white">
+                                  Available
+                                </span>
+                              </span>
+                            </td>
+                            <td className="px-5 py-5 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-neutral-900 text-sm inline-flex">
+                              <button
+                                className="px-2 py-1 my-2 mx-1 bg-blue-500 text-white rounded-full hover:bg-blue-600 duration-300 max-w-[120px] flex-wrap"
+                                title="Start Chat"
+                                onClick={() => navigate("/chatemployee")}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="h-5 w-5 inline mx-2"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={1}
+                                    d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
+                                  />
+                                </svg>
+                              </button>
+                              <button
+                                className="px-2 py-1 my-2 mx-1 bg-blue-500 text-white rounded-full hover:bg-blue-600 duration-300 max-w-[120px] flex-wrap"
+                                title="Send Mail"
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke-width="1"
+                                  stroke="currentColor"
+                                  className="h-5 w-5 inline mx-2"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M21.75 9v.906a2.25 2.25 0 01-1.183 1.981l-6.478 3.488M2.25 9v.906a2.25 2.25 0 001.183 1.981l6.478 3.488m8.839 2.51l-4.66-2.51m0 0l-1.023-.55a2.25 2.25 0 00-2.134 0l-1.022.55m0 0l-4.661 2.51m16.5 1.615a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V8.844a2.25 2.25 0 011.183-1.98l7.5-4.04a2.25 2.25 0 012.134 0l7.5 4.04a2.25 2.25 0 011.183 1.98V19.5z"
+                                  />
+                                </svg>
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })}
                     <tr>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white dark:bg-neutral-900 dark:border-gray-700 text-sm">
                         <div className="flex items-center">
@@ -112,7 +228,7 @@ function EmployeeList() {
                           Salon
                         </p>
                       </td>
-                      <td className="px-5 py-5 border-b border-gray-200 bg-white dark:bg-neutral-900 dark:border-gray-700 text-sm min-w-[145px]">
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white dark:bg-neutral-900 dark:border-gray-700 text-sm min-w-[150px]">
                         <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
                           <span
                             aria-hidden

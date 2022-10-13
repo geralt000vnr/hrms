@@ -2,8 +2,8 @@ import http from "./httpServices";
 import API_PATH from "./config";
 import { getJWT } from "./../utils/storage";
 
-const apiToken =
-  "Basic Y3liZXJmcmF0OjAyNjg2NjMyNmE5ZDFkMmIyMzIyNmU0ZTg5MjkxOTJn";
+// const apiToken =
+//   "Basic Y3liZXJmcmF0OjAyNjg2NjMyNmE5ZDFkMmIyMzIyNmU0ZTg5MjkxOTJn";
 
 export async function getAndSetJwt() {
   http.setJwt(getJWT());
@@ -59,6 +59,18 @@ export async function addUser(data) {
 
 export async function getUserDetails(userId) {
   return http.get(API_PATH.apiGetUser + userId);
+}
+
+export async function getUserList() {
+  return http.get(API_PATH.apiGetUserList);
+}
+
+export async function applyHoliday(data) {
+  return http.post(API_PATH.apiApplyNewHoliday, data);
+}
+
+export async function holidayList() {
+  return http.get(API_PATH.apiHolidayList);
 }
 
 // {

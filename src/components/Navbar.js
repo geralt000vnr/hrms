@@ -3,33 +3,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
 import { baseURL } from "../api/httpServices";
-// import profile from "../assets/profile.JPG";
 import { logout } from "../redux/Action/AuthAction";
 import { tempNotificationArr } from "./TempData";
 
 function Navbar() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state);
-  const currentUser = user?.currentUser;
   const [toggleNotification, setToggleNotification] = useState(false);
-  const [userImage, setUserImage] = useState("");
+  const [userDetails, setUserDetails] = useState({});
   useEffect(() => {
-    if (user.currentUser?.profilePic) {
-      const base64ToString = btoa(
-        String.fromCharCode(
-          ...new Uint8Array(user.currentUser?.profilePic?.data?.data),
-        ),
-      );
-      localStorage.setItem("userImage", base64ToString);
-      let image = localStorage.getItem("userImage");
-      if (image) {
-        console.log("imagesss", base64ToString);
-        setUserImage(image);
-      }
-    }
+    let details = localStorage.getItem("UserDetails");
+    details && setUserDetails(JSON.parse(details));
   }, [user]);
 
-  console.log("userImage", user.currentUser?.profilePic?.data?.data);
+  console.log("userImage", userDetails);
   return (
     <>
       <div
@@ -241,8 +228,17 @@ function Navbar() {
           <div className="w-80 mt-16 ml-auto justify-center flex flex-col">
             <img
               // src={baseURL + currentUser.profilePic}
-              src={baseURL + userImage}
-              alt={currentUser.profilePic}
+              src={
+                baseURL +
+                (userDetails && userDetails.profilePic
+                  ? userDetails.profilePic
+                  : "")
+              }
+              alt={
+                userDetails && userDetails.profilePic
+                  ? userDetails.profilePic
+                  : "...."
+              }
               className="rounded-full h-32 w-32 mx-auto overflow-hidden"
             />
             <div className="mx-auto my-5 text-2xl font-bold">Neeraj Yadav</div>
@@ -261,12 +257,12 @@ function Navbar() {
                             </th>
                             <th className="p-2 whitespace-nowrap ">
                               <div className="font-thin text-center">
-                                Revenue
+                                Total Tasks
                               </div>
                             </th>
                             <th className="p-2 whitespace-nowrap">
                               <div className="font-thin text-center">
-                                Average
+                                Task Completed
                               </div>
                             </th>
                           </tr>
@@ -277,12 +273,10 @@ function Navbar() {
                               <div className=" text-center">28</div>
                             </td>
                             <td className="p-2 whitespace-nowrap">
-                              <div className="text-center">$2890</div>
+                              <div className="text-center">10</div>
                             </td>
                             <td className="p-2 whitespace-nowrap">
-                              <div className="text-center font-medium">
-                                $2,890.66
-                              </div>
+                              <div className="text-center font-medium">5</div>
                             </td>
                           </tr>
                         </tbody>

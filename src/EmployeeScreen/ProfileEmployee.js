@@ -1,7 +1,12 @@
-import React from "react";
-import profile from "../assets/profile.JPG";
+import React, { useEffect, useState } from "react";
+import { baseURL } from "../api/httpServices";
 
 function ProfileEmployee() {
+  const [userDetails, setUserDetails] = useState({});
+  useEffect(() => {
+    let details = localStorage.getItem("UserDetails");
+    setUserDetails(JSON.parse(details));
+  }, []);
   return (
     <div className="mt-10 lg:-mt-80 ml-5 lg:ml-16 mr-5 lg:mr-96 min-h-screen h-auto bg-gray-200 dark:bg-gray-800 w-auto rounded-lg">
       <div className="bg-white dark:bg-gray-900 dark:text-white px-10 py-5 rounded-t-lg text-3xl font-semibold text-gray-900">
@@ -16,8 +21,8 @@ function ProfileEmployee() {
                   <div class="image overflow-hidden">
                     <img
                       class="h-auto w-full mx-auto"
-                      src={profile}
-                      alt="...."
+                      src={baseURL + userDetails.profilePic}
+                      alt={userDetails.profilePic}
                     />
                   </div>
                   <h1 class="text-gray-900 dark:text-zinc-100 font-bold text-xl leading-8 my-1">

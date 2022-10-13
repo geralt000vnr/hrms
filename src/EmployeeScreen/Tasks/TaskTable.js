@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { getTaskList } from "../../api";
 import LoadingEffect from "../../utils/LoadingEffect";
 // import { tempTaskData } from "../../components/TempData";
 
 function TaskTable() {
-  const navigate = useNavigate();
-
   const [loading, setLoading] = useState(true);
 
   const [taskList, setTaskList] = useState([]);

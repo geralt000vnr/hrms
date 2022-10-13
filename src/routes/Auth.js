@@ -10,7 +10,7 @@ const Auth = () => {
   const [passcode, setPasscode] = useState("password");
   const dispatch = useDispatch();
 
-  const handleClick = (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
     const data = { email: id, password: passcode };
     dispatch(loginAction(data));
@@ -79,7 +79,8 @@ const Auth = () => {
                 </div>
                 <div className="px-4 pb-2 pt-4">
                   <button
-                    onClick={handleClick}
+                    onClick={handleLogin}
+                    type="button"
                     className="uppercase block w-full p-4 text-lg rounded-full bg-indigo-500 hover:bg-indigo-600 focus:outline-none"
                   >
                     Login

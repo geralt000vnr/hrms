@@ -13,7 +13,6 @@ import {
 import {
   addTask,
   getCommonComponent,
-  getprojectlist,
   getTaskDetails,
   updateTask,
 } from "../../api";

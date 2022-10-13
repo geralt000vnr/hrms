@@ -64,6 +64,7 @@ export const userDetails = (userId) => async (dispatch) => {
     type: ActionType.GET_USER_DETAILS,
     payload: response.data?.data,
   });
+  localStorage.setItem("UserDetails", JSON.stringify(response.data));
   dispatch({ type: ActionType.LOADING, payload: false });
 };
 

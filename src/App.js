@@ -1,22 +1,24 @@
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Navigate, Route, Routes } from "react-router-dom";
 import SignUp from "./components/Auth/SIgnUp";
 import Auth from "./routes/Auth";
 import User from "./routes/User";
 import "./App.css";
+import { useEffect, useState } from "react";
 
 function App() {
   const { user } = useSelector((state) => state);
   const currentUser = user?.currentUser;
-  // useEffect(() => {
-  //   const currentUser = localStorage.getItem("HRMSUser");
-  // }, [])
+  const [hrmsUser, setHrmsUser] = useState();
+  useEffect(() => {
+    const HRMSUser = localStorage.getItem("HRMSUser");
+    setHrmsUser(HRMSUser);
+  }, [currentUser]);
 
   // const currentUser = true;
   return (
     <div className="bg-white dark:bg-zinc-800 min-h-screen">
-      {!currentUser ? (
+      {!hrmsUser ? (
         <Routes>
           <Route path={"/login"} element={<Auth />} />
           <Route path={"/signup"} element={<SignUp />} />

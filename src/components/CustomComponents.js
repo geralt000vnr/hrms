@@ -20,6 +20,7 @@ export const Input = ({
   placeholder,
   inValid,
   inValidMsg,
+  ...rest
 }) => {
   return (
     <div>
@@ -43,6 +44,7 @@ export const Input = ({
             inValid ? "border-red-600" : "border-gray-300 dark:border-gray-600"
           } text-gray-900 focus:outline-none w-full p-2.5 bg-gray-800 dark:text-white text-sm`}
           placeholder={placeholder ? placeholder : "Enter " + label}
+          {...rest}
         />
         {inValid && (
           <p className="mt-2 ml-2 text-sm text-red-600 dark:text-red-500 italic">

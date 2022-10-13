@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { tempHolidayArr } from "../../components/TempData";
+import { holidayList } from "../../api";
 
 function HolidayEmployee() {
   const navigate = useNavigate();
+
+  const [holidaysList, setHolidaysList] = useState([]);
+  useEffect(() => {
+    holidayList()
+      .then((res) => {
+        setHolidaysList(res.data);
+        console.log("cosnsoel list", res.data);
+      })
+      .catch((err) => console.log("error : ", err));
+  }, []);
+
   return (
     <div className="min-h-[55vh]">
       <table className="min-w-full table-auto">
@@ -38,9 +49,9 @@ function HolidayEmployee() {
           </tr>
         </thead>
         <tbody className="bg-gray-200 dark:bg-slate-800">
-          {tempHolidayArr &&
-            tempHolidayArr.length &&
-            tempHolidayArr.map((item) => {
+          {holidaysList &&
+            holidaysList.length &&
+            holidaysList.map((item) => {
               return (
                 <tr
                   key={item.id}
@@ -48,7 +59,7 @@ function HolidayEmployee() {
                 >
                   <td className="text-center py-2">#{item.id}</td>
                   <td className="text-center ml-2 font-semibold">
-                    {item.holidayType}
+                    {item.type}
                   </td>
                   <td className="text-center py-2">{item.startDate}</td>
 
