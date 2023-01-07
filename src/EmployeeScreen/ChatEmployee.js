@@ -1,52 +1,120 @@
-// import React, { useEffect, useState } from "react";
-// import io from "socket.io-client";
+/* eslint-disable no-script-url */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import io from "socket.io-client";
+import { chatMsg, getChatsList, getMessage, searchUser } from "../api";
+import { baseURL } from "../api/httpServices";
+import MainChatRoomComponent from "./chats/MainChatRoomComponent";
 
-// const socket = io();
+const socket = io.connect("http://localhost:4000");
 
 function ChatEmployee() {
-  // const [isConnected, setIsConnected] = useState(socket.connected);
-  // const [lastPong, setLastPong] = useState(null);
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [msgValue, setMsgValue] = useState("");
+  const [messageArr, setMessageArr] = useState([]);
+  const [userList, setUserList] = useState([]);
+  const [selectedUser, setSelectedUser] = useState({});
+  const [search, setSearch] = useState("");
+  const [searchedUsers, setSearchedUsers] = useState([]);
 
-  // useEffect(() => {
-  //   socket.on("connect", () => {
-  //     setIsConnected(true);
-  //   });
+  let user = JSON.parse(localStorage.getItem("UserDetails"));
 
-  //   socket.on("disconnect", () => {
-  //     setIsConnected(false);
-  //   });
+  useEffect(() => {
+    getChatsList(user.firstName)
+      .then((res) => {
+        let tempVal = res.data.map((item) => {
+          if (item.sender[0]._id === user._id) {
+            return { ...item, userDetails: item.reciever[0] };
+          }
+          return { ...item, userDetails: item.sender[0] };
+        });
+        // let chatList = res.data.filter((item) => item._id !== user._id);
+        setUserList(tempVal);
+      })
+      .catch((err) => console.error("error :", err));
+    // chatMsg()
+    //   .then((res) => setMessageArr(res.data))
+    //   .catch((err) => console.error("error :", err));
+    socket.on("connect", () => {
+      console.log("connect run in front");
+    });
 
-  //   socket.on("pong", () => {
-  //     setLastPong(new Date().toISOString());
-  //   });
+    socket.on("disconnect", () => {
+      console.log("disconnect run in front");
+    });
+  }, []);
 
-  //   return () => {
-  //     socket.off("connect");
-  //     socket.off("disconnect");
-  //     socket.off("pong");
-  //   };
-  // }, []);
+  socket.on("chat message recieve", function (msg) {
+    let tempValue = [];
+    tempValue = messageArr;
+    if (!tempValue.find((item) => item.id === msg.id)) {
+      console.log(
+        "consosomsg",
+        msg,
+        msg.senderId === user._id || msg.recieverId === user._id,
+      );
+      if (msg.senderId === user._id || msg.recieverId === user._id) {
+        tempValue.push(msg);
+        setMessageArr((oldValue) => [...oldValue, msg]);
+      }
+      console.log("consosomsguuuuuuuuuuuu", messageArr, tempValue);
+    }
+  });
 
-  // const sendPing = () => {
-  //   socket.emit("ping");
-  // };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("submit running");
+    setMessageArr((prevVal) => [
+      ...prevVal,
+      {
+        msgValue,
+        senderId: user._id,
+        sendTime: new Date(),
+        recieverId: selectedUser._id,
+        chatId: id,
+      },
+    ]);
+    socket.emit("chat message send", {
+      msgValue,
+      senderId: user._id,
+      sendTime: new Date(),
+      recieverId: selectedUser._id,
+      chatId: id,
+    });
+    setMsgValue("");
+  };
 
-  // return (
-  //   <div>
-  //     <p>Connected: {"" + isConnected}</p>
-  //     <p>Last pong: {lastPong || "-"}</p>
-  //     <button onClick={sendPing}>Send ping</button>
-  //   </div>
-  // );
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+    searchUser(e.target.value)
+      .then((res) => {
+        setSearchedUsers(res.data);
+      })
+      .catch((err) => console.error("error :", err));
+  };
+
+  const selectChat = (item) => {
+    navigate("/chatemployee/" + item.chatId);
+    getMessage(item.chatId)
+      .then((res) => setMessageArr(res.data))
+      .catch((err) => console.error("error :", err));
+    socket.emit("joinRoom", item.chatId);
+    setSelectedUser(item.userDetails);
+  };
   return (
     <div className="min-table-height">
-      <div className="mt-10 lg:-mt-80 ml-5 lg:ml-16 mr-5 lg:mr-96 h-auto bg-gray-200 dark:bg-gray-800 w-auto rounded-lg">
+      <div
+        className="mt-10 lg:-mt-80 ml-5 lg:ml-16 mr-5 lg:mr-64 bg-gray-200 dark:bg-gray-800 w-auto rounded-lg mb-10"
+        style={{ height: "400px" }}
+      >
         <div className="bg-white dark:bg-gray-900 dark:text-white px-10 py-5 rounded-t-lg text-3xl font-semibold text-gray-900">
           Chat Page
         </div>
 
         <div className="w-auto">
-          <div className="grid lg:grid-cols-3 grid-cols-1 min-w-full border dark:border-gray-700 rounded min-h-0 lg:min-h-[80vh]">
+          <div className="grid lg:grid-cols-3 grid-cols-1 min-w-full border dark:border-gray-700 rounded min-h-0 lg:min-h-[70vh]">
             <div className="col-span-1 bg-white dark:bg-slate-800 border-r border-gray-300 dark:border-gray-700">
               <div className="my-3 mx-3 ">
                 <div className="relative text-gray-600 dark:border-gray-100 focus-within:text-gray-400">
@@ -71,226 +139,125 @@ function ChatEmployee() {
                     name="search"
                     required
                     autoComplete="search"
+                    value={search}
+                    onChange={handleSearch}
                   />
                 </div>
               </div>
-
-              <ul className="overflow-auto">
-                <h2 className="ml-2 mb-2 text-gray-600 text-lg my-2">Chats</h2>
-                <li>
-                  <a
-                    href="/"
-                    className="hover:bg-gray-100 dark:hover:bg-gray-900 border-b border-gray-300 dark:border-gray-700 px-3 py-2 cursor-pointer flex items-center text-sm focus:outline-none focus:border-gray-300 dark:focus:border-gray-700 transition duration-150 ease-in-out"
-                  >
-                    <img
-                      className="h-10 w-10 rounded-full object-cover"
-                      src="https://images.pexels.com/photos/837358/pexels-photo-837358.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"
-                      alt="username"
-                    />
-                    <div className="w-full pb-2">
-                      <div className="flex justify-between">
-                        <span className="block ml-2 font-semibold text-base text-gray-600 dark:text-gray-400">
-                          Aman Tiwari
-                        </span>
-                        <span className="block ml-2 text-sm text-gray-600 dark:text-gray-400">
-                          5 minutes
-                        </span>
-                      </div>
-                      <span className="block ml-2 text-sm text-gray-600 dark:text-gray-400">
-                        Hello world!!
-                      </span>
-                    </div>
-                  </a>
-                  <a
-                    href="/"
-                    className="bg-gray-100 dark:bg-gray-700 border-b dark:hover:bg-gray-900 border-gray-300 dark:border-gray-700 px-3 py-2 cursor-pointer flex items-center text-sm focus:outline-none focus:border-gray-300 dark:focus:border-gray-700 transition duration-150 ease-in-out"
-                  >
-                    <img
-                      className="h-10 w-10 rounded-full object-cover"
-                      src="https://images.pexels.com/photos/3777931/pexels-photo-3777931.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"
-                      alt="username"
-                    />
-                    <div className="w-full pb-2">
-                      <div className="flex justify-between">
-                        <span className="block ml-2 font-semibold text-base text-gray-600 dark:text-gray-400">
-                          Susu
-                        </span>
-                        <span className="block ml-2 text-sm text-gray-600 dark:text-gray-400">
-                          15 minutes
-                        </span>
-                      </div>
-                      <span className="block ml-2 text-sm text-gray-600 dark:text-gray-400">
-                        here we go again
-                      </span>
-                    </div>
-                  </a>
-                  <a
-                    href="/"
-                    className="hover:bg-gray-100 dark:hover:bg-gray-900 border-b border-gray-300 dark:border-gray-700 px-3 py-2 cursor-pointer flex items-center text-sm focus:outline-none focus:border-gray-300 dark:focus:border-gray-700 transition duration-150 ease-in-out"
-                  >
-                    <img
-                      className="h-10 w-10 rounded-full object-cover"
-                      src="https://images.pexels.com/photos/6238133/pexels-photo-6238133.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"
-                      alt="username"
-                    />
-                    <div className="w-full pb-2">
-                      <div className="flex justify-between">
-                        <span className="block ml-2 font-semibold text-base text-gray-600 dark:text-gray-400">
-                          Prime Minister
-                        </span>
-                        <span className="block ml-2 text-sm text-gray-600 dark:text-gray-400">
-                          1 hour
-                        </span>
-                      </div>
-                      <span className="block ml-2 text-sm text-gray-600 dark:text-gray-400">
-                        Last message
-                      </span>
-                    </div>
-                  </a>
-                </li>
-              </ul>
+              {search ? (
+                <ul>
+                  {searchedUsers &&
+                    searchedUsers.map((item) => {
+                      console.log("searched item", item);
+                      return (
+                        <li>
+                          <a
+                            href="javascript:void(0);"
+                            onClick={() => navigate("/chatemployee/AmanTiwari")}
+                            className="hover:bg-gray-100 dark:hover:bg-gray-900 border-b border-gray-300 dark:border-gray-700 px-3 py-2 cursor-pointer flex items-center text-sm focus:outline-none focus:border-gray-300 dark:focus:border-gray-700 transition duration-150 ease-in-out"
+                          >
+                            <img
+                              className="h-10 w-10 rounded-full object-cover"
+                              src={baseURL + (item && item.profilePic)}
+                              alt={item.firstName + " " + item.lastName}
+                            />
+                            <div className="w-full pb-2">
+                              <div className="flex justify-between">
+                                <span className="block ml-2 font-semibold text-base text-gray-600 dark:text-gray-400">
+                                  {item.firstName + " " + item.lastName}
+                                </span>
+                                <span className="block ml-2 text-sm text-gray-600 dark:text-gray-400">
+                                  5 minutes
+                                </span>
+                              </div>
+                              <span className="block ml-2 text-sm text-gray-600 dark:text-gray-400">
+                                Hello world!!
+                              </span>
+                            </div>
+                          </a>
+                        </li>
+                      );
+                    })}
+                </ul>
+              ) : (
+                <ul className="overflow-auto">
+                  <h2 className="ml-2 mb-2 text-gray-600 text-lg my-2">
+                    Chats
+                  </h2>
+                  {userList &&
+                    userList.map((item) => {
+                      return (
+                        <li key={item._id}>
+                          <a
+                            href="javascript:void(0);"
+                            onClick={() => selectChat(item)}
+                            className={`hover:bg-gray-100 dark:hover:bg-gray-900 border-b border-gray-300 dark:border-gray-700 px-3 py-2 cursor-pointer flex items-center text-sm focus:outline-none focus:border-gray-300 dark:focus:border-gray-700 transition duration-150 ease-in-out 
+                              ${
+                                id === item.chatId
+                                  ? "bg-gray-100 dark:bg-gray-700"
+                                  : ""
+                              }
+                          `}
+                          >
+                            <img
+                              className="h-10 w-10 rounded-full object-cover"
+                              src={
+                                baseURL +
+                                (item &&
+                                  item.userDetails &&
+                                  item.userDetails.profilePic)
+                              }
+                              alt={
+                                (item &&
+                                  item.userDetails &&
+                                  item.userDetails.firstName) +
+                                " " +
+                                (item &&
+                                  item.userDetails &&
+                                  item.userDetails.lastName)
+                              }
+                            />
+                            <div className="w-full pb-2">
+                              <div className="flex justify-between">
+                                <span className="block ml-2 font-semibold text-base text-gray-600 dark:text-gray-400">
+                                  {(item &&
+                                    item.userDetails &&
+                                    item.userDetails.firstName) +
+                                    " " +
+                                    (item &&
+                                      item.userDetails &&
+                                      item.userDetails.lastName)}
+                                </span>
+                                <span className="block ml-2 text-sm text-gray-600 dark:text-gray-400">
+                                  5 minutes
+                                </span>
+                              </div>
+                              <span className="block ml-2 text-sm text-gray-600 dark:text-gray-400">
+                                Hello world!!
+                              </span>
+                            </div>
+                          </a>
+                        </li>
+                      );
+                    })}
+                </ul>
+              )}
             </div>
             <div className="col-span-2 bg-white dark:bg-gray-800">
-              <div className="w-full">
-                <div className="flex items-center border-b border-gray-300 dark:border-gray-700 pl-3 py-3">
-                  <img
-                    className="h-10 w-10 rounded-full object-cover"
-                    src="https://images.pexels.com/photos/3777931/pexels-photo-3777931.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"
-                    alt="username"
-                  />
-                  <span className="block ml-2 font-bold text-base text-gray-600 dark:text-slate-300">
-                    Susu
-                  </span>
-                  <span className="connected text-green-500 ml-2">
-                    <svg width="6" height="6">
-                      <circle cx="3" cy="3" r="3" fill="currentColor"></circle>
-                    </svg>
-                  </span>
+              {id !== "table" ? (
+                <MainChatRoomComponent
+                  messageArr={messageArr}
+                  handleSubmit={handleSubmit}
+                  user={user}
+                  msgValue={msgValue}
+                  setMsgValue={setMsgValue}
+                  selectedUser={selectedUser}
+                />
+              ) : (
+                <div className="h-full text-white flex justify-center items-center text-2xl">
+                  Welcome To Chat, Please Select Any Chat
                 </div>
-                <div
-                  id="chat"
-                  className="w-full overflow-y-auto p-10 relative"
-                  style={{ height: "700px" }}
-                >
-                  <ul>
-                    <li className="clearfix2">
-                      <div className="w-full flex justify-start">
-                        <div
-                          className="bg-gray-100 dark:bg-gray-600 rounded px-5 py-2 my-2 text-gray-700 dark:text-slate-300 relative"
-                          style={{ maxWidth: "300px" }}
-                        >
-                          <span className="block">Hello bro</span>
-                          <span className="block text-xs text-right">
-                            10:30pm
-                          </span>
-                        </div>
-                      </div>
-                      <div className="w-full flex justify-end">
-                        <div
-                          className="bg-gray-100 dark:bg-blue-800 rounded px-5 py-2 my-2 text-gray-700 dark:text-slate-300 relative"
-                          style={{ maxWidth: "300px" }}
-                        >
-                          <span className="block">Hello</span>
-                          <span className="block text-xs text-left">
-                            10:32pm
-                          </span>
-                        </div>
-                      </div>
-                      <div className="w-full flex justify-end">
-                        <div
-                          className="bg-gray-100 dark:bg-blue-800 rounded px-5 py-2 my-2 text-gray-700 dark:text-slate-300 relative"
-                          style={{ maxWidth: "300px" }}
-                        >
-                          <span className="block">how are you?</span>
-                          <span className="block text-xs text-left">
-                            10:32pm
-                          </span>
-                        </div>
-                      </div>
-                      <div className="w-full flex justify-start">
-                        <div
-                          className="bg-gray-100 dark:bg-gray-600 rounded px-5 py-2 my-2 text-gray-700 dark:text-slate-300 relative"
-                          style={{ maxWidth: "300px" }}
-                        >
-                          <span className="block">I am fine</span>
-                          <span className="block text-xs text-right">
-                            10:42pm
-                          </span>
-                        </div>
-                      </div>
-                      <div className="w-full flex justify-end">
-                        <div
-                          className="bg-gray-100 dark:bg-blue-800 rounded px-5 py-2 my-2 text-gray-700 dark:text-slate-300 relative"
-                          style={{ maxWidth: "300px" }}
-                        >
-                          <span className="block">here we go again</span>
-                          <span className="block text-xs text-left">
-                            10:52pm
-                          </span>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-
-                <div className="w-full py-3 px-3 flex items-center justify-between border-t border-gray-300 dark:border-gray-700">
-                  <button className="outline-none focus:outline-none">
-                    <svg
-                      className="text-gray-400 h-6 w-6"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                      />
-                    </svg>
-                  </button>
-                  <button className="outline-none focus:outline-none ml-1">
-                    <svg
-                      className="text-gray-400 h-6 w-6"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
-                      />
-                    </svg>
-                  </button>
-
-                  <input
-                    aria-placeholder="Escribe un mensaje aquí"
-                    placeholder="Type Your Message..."
-                    className="py-2 mx-3 pl-5 block w-full rounded-full bg-gray-100 dark:bg-zinc-900 outline-none focus:text-gray-700 dark:focus:text-zinc-300 dark:placeholder-slate-400 dark:text-zinc-400"
-                    type="text"
-                    name="message"
-                    required
-                  />
-
-                  <button
-                    className="outline-none focus:outline-none"
-                    type="submit"
-                  >
-                    <svg
-                      className="text-gray-400 h-7 w-7 origin-center transform rotate-90"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
+              )}
             </div>
           </div>
         </div>

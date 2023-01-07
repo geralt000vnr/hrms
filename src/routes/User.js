@@ -73,7 +73,11 @@ function User() {
         <Routes>
           <Route path={"/dashboard"} element={<EmployeeHomeScreen />} />
           <Route path={"/calenderemployee"} element={<CalenderEmployee />} />
-          <Route path={"/chatemployee"} element={<ChatEmployee />} />
+          <Route path={"/chatemployee/:id"} element={<ChatEmployee />} />
+          {/* <Route path="/chatemployee">
+            <Route index element={<ChatEmployee />} />
+            <Route path=":id" element={<ChatEmployee />} />
+          </Route> */}
           <Route path={"/Holidayemployee/:tab"} element={<HolidayTabs />} />
           <Route path={"/projectsEmployee/:tab"} element={<ProjectsTab />} />
           <Route path={"/profileemployee"} element={<ProfileEmployee />} />
@@ -81,7 +85,7 @@ function User() {
           <Route path={"/listemployee"} element={<EmployeeList />} />
           <Route path={"*"} element={<Navigate to={"/dashboard"} />} />
         </Routes>
-        <Footer />
+        {/* <Footer /> */}
       </>
       {/* )} */}
     </div>

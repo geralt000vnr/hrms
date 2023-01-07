@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { holidayList } from "../../api";
+import { momentDate } from "../../utils/CommonDateFunction";
 
 function HolidayEmployee() {
   const navigate = useNavigate();
@@ -61,9 +62,13 @@ function HolidayEmployee() {
                   <td className="text-center ml-2 font-semibold">
                     {item.type}
                   </td>
-                  <td className="text-center py-2">{item.startDate}</td>
+                  <td className="text-center py-2">
+                    {momentDate(item.startDate)}
+                  </td>
 
-                  <td className="text-center py-2">{item.endDate}</td>
+                  <td className="text-center py-2">
+                    {momentDate(item.endDate)}
+                  </td>
                   <td
                     title={item.status}
                     className={

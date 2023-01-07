@@ -19,10 +19,7 @@ function Navbar() {
   console.log("userImage", userDetails);
   return (
     <>
-      <div
-        className="bg-gradient-to-tr from-blue-400 to-emerald-300 dark:from-indigo-900 dark:to-emerald-900 text-white py-5 px-16 font-Acme h-auto"
-        onLoad={() => toast.success("here we go again")}
-      >
+      <div className="bg-gradient-to-tr from-blue-400 to-emerald-300 dark:from-indigo-900 dark:to-emerald-900 text-white py-5 px-16 font-Acme h-auto">
         <div className=" flex lg:flex-row flex-col justify-between ">
           <div className="text-lg">
             {" "}
@@ -64,7 +61,7 @@ function Navbar() {
               </svg>
               Calendar
             </Link>
-            <NavLink to="/chatemployee" className="active:underline">
+            <NavLink to="/chatemployee/table" className="active:underline">
               {" "}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -225,31 +222,61 @@ function Navbar() {
           </div>
         </div>
         <div className="w-full hidden lg:block">
-          <div className="w-80 mt-16 ml-auto justify-center flex flex-col">
-            <img
-              // src={baseURL + currentUser.profilePic}
-              src={
-                baseURL +
-                (userDetails && userDetails.profilePic
-                  ? userDetails.profilePic
-                  : "")
-              }
-              alt={
-                userDetails && userDetails.profilePic
-                  ? userDetails.profilePic
-                  : "...."
-              }
-              className="rounded-full h-32 w-32 mx-auto overflow-hidden"
-            />
-            <div className="mx-auto my-5 text-2xl font-bold">Neeraj Yadav</div>
-            <div>
-              <section className="antialiased text-gray-600 px-4">
-                <div className="flex flex-col justify-center h-full">
-                  <div className="w-full max-w-2xl mx-auto ">
-                    <div className="p-3">
-                      <table className="table-auto w-full">
+          <div className="mt-8 ml-auto ">
+            <div className="mr-0 ml-auto justify-center flex flex-col">
+              <img
+                // src={baseURL + currentUser.profilePic}
+                src={
+                  baseURL +
+                  (userDetails && userDetails.profilePic
+                    ? userDetails.profilePic
+                    : "")
+                }
+                alt={
+                  userDetails && userDetails.profilePic
+                    ? userDetails.profilePic
+                    : "...."
+                }
+                className="rounded-full h-32 w-32 mr-0 ml-auto overflow-hidden"
+              />
+              <div className="ml-auto my-5 text-2xl font-bold">
+                {userDetails &&
+                  userDetails.firstName + " " + userDetails.lastName}
+              </div>
+              <div className="ml-auto">
+                <section className="antialiased text-gray-600 px-4">
+                  <div className="flex flex-col justify-center h-full">
+                    <div className="max-w-2xl mx-auto ">
+                      <div className="py-3">
+                        <div className="table-auto text-right">
+                          <div>
+                            <span className="text-lg text-gray-300 font-thin">
+                              Projects :&nbsp;
+                            </span>
+                            <span className="text-lg divide-y divide-gray-100 text-white font-roboto">
+                              28
+                            </span>
+                          </div>
+                          <div>
+                            <span className="text-lg font-thin text-gray-300">
+                              Total Tasks :&nbsp;
+                            </span>
+                            <span className="text-lg divide-y divide-gray-100 text-white font-roboto">
+                              10
+                            </span>
+                          </div>
+                          <div>
+                            <span className="text-lg font-thin text-gray-300">
+                              Tasks Completed :&nbsp;
+                            </span>
+                            <span className="text-lg divide-y divide-gray-100 text-white font-roboto">
+                              5
+                            </span>
+                          </div>
+                        </div>
+                        {/* <table className="table-auto w-full">
                         <thead className="text-lg font-semibold text-gray-300">
-                          <tr>
+                          <tr className="flex flex-col">
                             <th className="p-2 whitespace-nowrap">
                               <div className="font-thin text-center">
                                 Projects
@@ -268,7 +295,7 @@ function Navbar() {
                           </tr>
                         </thead>
                         <tbody className="text-lg divide-y divide-gray-100 text-white font-roboto ">
-                          <tr>
+                          <tr className="flex flex-col">
                             <td className="p-2 whitespace-nowrap">
                               <div className=" text-center">28</div>
                             </td>
@@ -280,41 +307,42 @@ function Navbar() {
                             </td>
                           </tr>
                         </tbody>
-                      </table>
+                      </table> */}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </section>
-              <div
-                className={`${
-                  toggleNotification ? "" : "hidden"
-                } absolute top-16 right-44 bg-slate-100 dark:bg-zinc-800 text-teal-800 dark:text-white rounded-md w-72 py-2`}
-              >
-                {tempNotificationArr &&
-                  tempNotificationArr.length &&
-                  tempNotificationArr.map((item) => {
-                    return (
-                      <div key={item.id}>
-                        <div className="w-full p-2 hover:bg-zinc-900">
-                          <div className="flex justify-between">
-                            <span className="block mx-2 font-semibold text-base text-gray-600 dark:text-gray-400">
-                              {item.title.length > 15
-                                ? item.title.slice(0, 16) + "..."
-                                : item.title}
-                            </span>
+                </section>
+                <div
+                  className={`${
+                    toggleNotification ? "" : "hidden"
+                  } absolute top-16 right-44 bg-slate-100 dark:bg-zinc-800 text-teal-800 dark:text-white rounded-md w-72 py-2`}
+                >
+                  {tempNotificationArr &&
+                    tempNotificationArr.length &&
+                    tempNotificationArr.map((item) => {
+                      return (
+                        <div key={item.id}>
+                          <div className="w-full p-2 hover:bg-zinc-900">
+                            <div className="flex justify-between">
+                              <span className="block mx-2 font-semibold text-base text-gray-600 dark:text-gray-400">
+                                {item.title.length > 15
+                                  ? item.title.slice(0, 16) + "..."
+                                  : item.title}
+                              </span>
+                              <span className="block ml-2 text-sm text-gray-600 dark:text-gray-400">
+                                {item.time}
+                              </span>
+                            </div>
                             <span className="block ml-2 text-sm text-gray-600 dark:text-gray-400">
-                              {item.time}
+                              {item.discription.length > 40
+                                ? item.discription.slice(0, 41) + "..."
+                                : item.discription}
                             </span>
                           </div>
-                          <span className="block ml-2 text-sm text-gray-600 dark:text-gray-400">
-                            {item.discription.length > 40
-                              ? item.discription.slice(0, 41) + "..."
-                              : item.discription}
-                          </span>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
+                </div>
               </div>
             </div>
           </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getProjectList } from "../../api";
+import { toast } from "react-toastify";
+import { assignProject, getProjectList } from "../../api";
 import LoadingEffect from "../../utils/LoadingEffect";
 
 function ProjectsTable() {
@@ -72,6 +73,7 @@ function ProjectsTable() {
           <tbody className="bg-gray-200 dark:bg-slate-800">
             {projectList && projectList.length
               ? projectList.map((item) => {
+                  console.log("inmap", item);
                   return (
                     <tr
                       key={item.id}
@@ -91,11 +93,12 @@ function ProjectsTable() {
                       </td>
                       <td
                         className="text-center py-2 max-w-[170px]"
-                        title={item.discription}
+                        title={item.projectDescription}
                       >
-                        {item.discription.length > 20
-                          ? item.discription.slice(0, 21) + "..."
-                          : item.discription}
+                        {item.projectDescription &&
+                        item.projectDescription.length > 20
+                          ? item.projectDescription.slice(0, 21) + "..."
+                          : item.projectDescription}
                       </td>
                       {/* <td className="text-center py-2">{item.startDate}</td>
 
@@ -218,6 +221,38 @@ function ProjectsTable() {
                               strokeLinecap="round"
                               strokeLinejoin="round"
                               d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z"
+                            />
+                          </svg>
+                        </button>
+                        <button
+                          title="Assign"
+                          onClick={() => {
+                            let userDetails = JSON.parse(
+                              localStorage.getItem("UserDetails"),
+                            );
+                            const data = {
+                              userId: userDetails._id,
+                              projectid: item.id,
+                            };
+                            assignProject(data).then((res) => {
+                              console.log("response on assign", res);
+                              toast.success("Successfully Assigned");
+                            });
+                          }}
+                          className="px-2 py-1 my-2 mx-1 bg-blue-500 text-white rounded-full hover:bg-blue-600 duration-300 max-w-[120px] flex-wrap"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1"
+                            stroke="currentColor"
+                            class="w-5 h-4"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M12 4.5v15m7.5-7.5h-15"
                             />
                           </svg>
                         </button>

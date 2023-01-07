@@ -25,8 +25,8 @@ export async function addTask(data) {
   return http.post(API_PATH.apiAddTask, data);
 }
 
-export async function getprojectlist(data) {
-  return http.post(API_PATH.apiProject);
+export async function addProject(data) {
+  return http.post(API_PATH.apiProjectAdd, data);
 }
 
 export async function getTaskList() {
@@ -71,6 +71,26 @@ export async function applyHoliday(data) {
 
 export async function holidayList() {
   return http.get(API_PATH.apiHolidayList);
+}
+
+export async function chatMsg() {
+  return http.get(API_PATH.apiChat);
+}
+
+export async function getChatsList(id) {
+  return http.get(API_PATH.getChatsList + "/" + id);
+}
+
+export async function searchUser(value) {
+  return http.get(API_PATH.searchUser + value);
+}
+
+export async function getMessage(value) {
+  return http.get(API_PATH.getMessage + value);
+}
+
+export async function assignProject(data) {
+  return http.post(API_PATH.apiAssignProject, data);
 }
 
 // {

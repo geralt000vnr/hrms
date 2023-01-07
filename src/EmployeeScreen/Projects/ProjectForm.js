@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { addProject } from "../../api";
 import {
   Dropdown,
   FormEndBtn,
@@ -9,6 +11,7 @@ import {
 import { tempProjectStatusArr } from "../../components/TempData";
 
 function ProjectForm() {
+  const { tab } = useParams();
   const navigate = useNavigate();
   const [projectName, setProjectName] = useState("");
   const [projectCode, setProjectCode] = useState("");
@@ -16,7 +19,39 @@ function ProjectForm() {
   const [status, setStatus] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [otherDetails, setOtherDetails] = useState("");
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    // const formData = new FormData();
+    // formData.append("projectName", projectName);
+    // formData.append("projectCode", projectCode);
+    // formData.append("projectDescription", projectDescription);
+    // formData.append("status", status);
+    // formData.append("startDate", startDate);
+    // formData.append("endDate", endDate);
+    const data = {
+      projectName,
+      projectCode,
+      projectDescription,
+      status,
+      startDate,
+      endDate,
+    };
+    if (tab === "add") {
+      addProject(data)
+        .then((res) => {
+          console.log("response in add project function");
+          toast.success("Project Added");
+          navigate(-1);
+        })
+        .catch((err) => {
+          console.log("error in adding project", err, status);
+          toast.error("Project Not Added");
+        });
+    } else {
+      console.log("in submit form", data);
+    }
+  };
   return (
     <div>
       <form>
@@ -39,7 +74,7 @@ function ProjectForm() {
         <Dropdown
           dropdownArr={tempProjectStatusArr}
           selectedValue={status}
-          setSelectedValue={setStatus}
+          setSelectedValue={(e) => setStatus(e.target.value)}
           label="Status"
           id={"status"}
         />
@@ -67,15 +102,8 @@ function ProjectForm() {
           required={true}
           type={"text"}
         />
-        <TextArea
-          value={otherDetails}
-          onChange={(e) => setOtherDetails(e.target.value)}
-          label="OtherDetails"
-          id="otherDetails"
-          required={true}
-          type={"text"}
-        />
         <FormEndBtn
+          onSubmit={onSubmit}
           onCancel={(e) => {
             e.preventDefault();
             navigate(-1);

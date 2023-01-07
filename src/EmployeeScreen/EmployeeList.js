@@ -19,7 +19,7 @@ function EmployeeList() {
   }, []);
 
   return (
-    <div className="mt-10 lg:-mt-80 ml-5 lg:ml-16 mr-5 lg:mr-96 min-h-screen min-w-max lg:min-w-0 bg-gray-200 dark:bg-gray-800 w-auto rounded-lg">
+    <div className="mt-10 lg:-mt-80 ml-5 lg:ml-16 mr-5 lg:mr-64 min-h-screen min-w-max lg:min-w-0 bg-gray-200 dark:bg-gray-800 w-auto rounded-lg">
       <div className="bg-white dark:bg-gray-900 dark:text-white px-10 py-5 rounded-t-lg text-3xl font-semibold text-gray-900 flex align-center justify-between">
         Employees
         <span className="text-base flex items-center">

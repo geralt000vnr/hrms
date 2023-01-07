@@ -161,7 +161,7 @@ export const Dropdown = ({
             return (
               <option
                 className={"text-gray-100 dark:bg-gray-800 mx-1"}
-                value={item.value === selectedValue}
+                value={item.value}
                 selected={item.value === selectedValue}
               >
                 {item.label}
