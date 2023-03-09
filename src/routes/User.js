@@ -16,7 +16,7 @@ function User() {
   const { tab, id } = useParams();
   const { user } = useSelector((state) => state);
   // const currentUser = user?.currentUser;
-  console.log("currentuser", user, tab, id);
+  // console.log("currentuser", user, tab, id);
   return (
     <div>
       {/* {currentUser.userType === "Admin" ? (

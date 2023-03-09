@@ -16,7 +16,7 @@ function Navbar() {
     details && setUserDetails(JSON.parse(details));
   }, [user]);
 
-  console.log("userImage", userDetails);
+  // console.log("userImage", userDetails);
   return (
     <>
       <div className="bg-gradient-to-tr from-blue-400 to-emerald-300 dark:from-indigo-900 dark:to-emerald-900 text-white py-5 px-16 font-Acme h-auto">
@@ -77,7 +77,7 @@ function Navbar() {
                   d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
                 />
               </svg>
-              Chat
+              Chat/Mail
             </NavLink>
             <NavLink to="/holidayEmployee/table" className="active:underline">
               <svg

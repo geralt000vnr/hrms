@@ -22,13 +22,13 @@ function ChatEmployee() {
   let user = JSON.parse(localStorage.getItem("UserDetails"));
 
   useEffect(() => {
-    getChatsList(user.firstName)
+    getChatsList(user._id)
       .then((res) => {
         let tempVal = res.data.map((item) => {
-          if (item.sender[0]._id === user._id) {
-            return { ...item, userDetails: item.reciever[0] };
+          if (item.senderId._id === user._id) {
+            return { ...item, userDetails: item.recieverId };
           }
-          return { ...item, userDetails: item.sender[0] };
+          return { ...item, userDetails: item.senderId };
         });
         // let chatList = res.data.filter((item) => item._id !== user._id);
         setUserList(tempVal);
