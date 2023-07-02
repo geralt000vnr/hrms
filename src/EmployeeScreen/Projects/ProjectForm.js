@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { addProject } from "../../api";
+import { addProject, getProjectDetails } from "../../api";
 import {
   Dropdown,
   FormEndBtn,
@@ -9,33 +9,27 @@ import {
   TextArea,
 } from "../../components/CustomComponents";
 import { tempProjectStatusArr } from "../../components/TempData";
+import { fixFormDate } from "../../utils/CommonDateFunction";
 
 function ProjectForm() {
-  const { tab } = useParams();
+  const { tab, id } = useParams();
   const navigate = useNavigate();
   const [projectName, setProjectName] = useState("");
   const [projectCode, setProjectCode] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
   const [status, setStatus] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [projectStartDate, setProjectStartDate] = useState("");
+  const [projectEndDate, setProjectEndDate] = useState("");
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // const formData = new FormData();
-    // formData.append("projectName", projectName);
-    // formData.append("projectCode", projectCode);
-    // formData.append("projectDescription", projectDescription);
-    // formData.append("status", status);
-    // formData.append("startDate", startDate);
-    // formData.append("endDate", endDate);
     const data = {
       projectName,
       projectCode,
       projectDescription,
       status,
-      startDate,
-      endDate,
+      projectStartDate: new Date(projectStartDate),
+      projectEndDate: new Date(projectEndDate),
     };
     if (tab === "add") {
       addProject(data)
@@ -52,6 +46,37 @@ function ProjectForm() {
       console.log("in submit form", data);
     }
   };
+
+  useEffect(() => {
+    if (tab === "open") {
+      getProjectDetails(id)
+        .then((res) => {
+          setProjectName(res.data?.projectName);
+          setProjectCode(res.data?.projectCode);
+          setStatus(res.data?.status);
+          setProjectStartDate(fixFormDate(res.data?.projectStartDate));
+          setProjectEndDate(fixFormDate(res.data?.projectEndDate));
+          setProjectDescription(res.data?.projectDescription);
+        })
+        .catch((err) => {
+          setProjectName("");
+          setProjectCode("");
+          setStatus("");
+          setProjectStartDate();
+          setProjectEndDate();
+          setProjectDescription("");
+          console.error("error :", err);
+        });
+    } else {
+      setProjectName("");
+      setProjectCode("");
+      setStatus("");
+      setProjectStartDate();
+      setProjectEndDate();
+      setProjectDescription("");
+    }
+  }, [tab, id]);
+
   return (
     <div>
       <form>
@@ -79,16 +104,16 @@ function ProjectForm() {
           id={"status"}
         />
         <Input
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
+          value={projectStartDate}
+          onChange={(e) => setProjectStartDate(e.target.value)}
           label="Start Date"
           id="startDate"
           required={true}
           type={"date"}
         />
         <Input
-          value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
+          value={projectEndDate}
+          onChange={(e) => setProjectEndDate(e.target.value)}
           label="End Date"
           id="endDate"
           required={true}

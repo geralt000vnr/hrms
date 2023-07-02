@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { getTaskList } from "../../api";
-import Table2 from "../../components/common/Table2";
+import { useParams } from "react-router-dom";
+import { getProjectTaskList } from "../../api";
+import Table from "../../components/common/Table2";
 
-function TaskTable() {
-  const [loading, setLoading] = useState(true);
-
-  const [taskList, setTaskList] = useState([]);
+function AssignedTasks() {
+  const { id } = useParams();
+  const [loading, setLoading] = useState(false);
+  const [tasksList, setTasksList] = useState([]);
   const [totalRow, setTotalRow] = useState(0);
   const [tableState, setTableState] = useState({
     search: "",
@@ -13,25 +14,29 @@ function TaskTable() {
     order: "asc",
     pageNo: 1,
     perPage: 10,
+    projectId: id,
   });
 
   useEffect(() => {
     setLoading(true);
-    getTaskList(tableState)
+    getProjectTaskList(tableState)
       .then((res) => {
-        setTaskList(res.data.list);
-        setTotalRow(res.data.pagination.total);
+        setTotalRow(res.data.pagination.totalRow);
+        setTasksList(res.data?.list);
         setLoading(false);
       })
-      .catch((err) => console.log("err :", err));
-  }, [tableState]);
+      .catch((err) => {
+        console.error("error :", err);
+        setLoading(false);
+      });
+  }, [id, tableState]);
 
   return (
     <div>
-      <Table2
+      <Table
         type={"taskTable"}
         loading={loading}
-        data={taskList}
+        data={tasksList}
         totalRow={totalRow}
         tableState={tableState}
         setTableState={setTableState}
@@ -49,4 +54,4 @@ function TaskTable() {
   );
 }
 
-export default TaskTable;
+export default AssignedTasks;

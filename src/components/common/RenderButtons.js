@@ -6,7 +6,7 @@ function RenderButtons({ listOfButtons = [] }) {
       item.buttonName === "Create New" ||
       listOfButtons.length - 1 === index
     ) {
-      if (item.isHidden) {
+      if (item.isHidden || !item.buttonName) {
         return "";
       } else {
         return (
@@ -21,7 +21,7 @@ function RenderButtons({ listOfButtons = [] }) {
         );
       }
     } else {
-      if (item.isHidden) {
+      if (item.isHidden || !item.buttonName) {
         return "";
       } else {
         return (

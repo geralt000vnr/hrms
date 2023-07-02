@@ -17,6 +17,11 @@ const API_PATH = {
   searchUser: "/api/chat/searchUser/",
   getMessage: "/api/chat/getMessage/",
   apiAssignProject: "/api/project/assignProject",
+  getProjectDetails: "/api/project/getProjectDetails",
+  getProjectTaskList: "/api/task/getProjectTaskList",
+  apiCreateTeam: "/api/team/createTeam",
+  apiGetTeamList: "/api/team/getTeamList",
+  me: "/api/user/me",
 };
 
 export default API_PATH;

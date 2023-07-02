@@ -1,4 +1,5 @@
 import React from "react";
+import Select from "react-select";
 
 export function getRandomColor() {
   var letters = "0123456789ABCDEF".split("");
@@ -134,9 +135,16 @@ export const Dropdown = ({
   label,
   required,
   id,
+  disabled,
+  multiple,
+  menuIsOpen,
+  customSelect,
 }) => {
   return (
-    <div className="relative z-0 w-full mb-6 group" title={label}>
+    <div
+      className="relative z-0 w-full mb-6 group"
+      title={disabled ? label + " (Disabled)" : label}
+    >
       <label
         htmlFor={id}
         className="block text-sm font-normal text-gray-500 dark:text-gray-400"
@@ -145,31 +153,49 @@ export const Dropdown = ({
         &nbsp;
         {required && "*"}
       </label>
-      <select
-        id={id}
-        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer overflow-hidden"
-        aria-labelledby="dropdownDefault"
-        onChange={setSelectedValue}
-        required={required}
-      >
-        <option className={"text-gray-100 dark:bg-gray-800 mx-2"}>
-          Select...
-        </option>
-        {dropdownArr &&
-          dropdownArr.length &&
-          dropdownArr.map((item) => {
-            return (
-              <option
-                className={"text-gray-100 dark:bg-gray-800 mx-1"}
-                value={item.value}
-                selected={item.value === selectedValue}
-              >
-                {item.label}
-              </option>
-            );
-          })}
-      </select>
-      {/* </div> */}
+      {multiple ? (
+        <Select
+          value={selectedValue}
+          onChange={setSelectedValue}
+          options={dropdownArr}
+          isMulti
+          menuIsOpen={menuIsOpen}
+        />
+      ) : customSelect ? (
+        <select
+          id={id}
+          className="block p-2.5 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer overflow-hidden"
+          aria-labelledby="dropdownDefault"
+          onChange={(e) => setSelectedValue(e.target.value)}
+          value={selectedValue}
+          required={required}
+          disabled={disabled}
+        >
+          <option className={"text-gray-100 dark:bg-gray-800 mx-2"}>
+            Select...
+          </option>
+          {dropdownArr &&
+            dropdownArr.length &&
+            dropdownArr.map((item, index) => {
+              return (
+                <option
+                  className={"text-gray-100 dark:bg-gray-800 mx-1"}
+                  value={item.value}
+                  key={index}
+                >
+                  {item.label}
+                </option>
+              );
+            })}
+        </select>
+      ) : (
+        <Select
+          value={selectedValue}
+          onChange={setSelectedValue}
+          options={dropdownArr}
+          menuIsOpen={menuIsOpen}
+        />
+      )}
     </div>
   );
 };

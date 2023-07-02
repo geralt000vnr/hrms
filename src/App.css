@@ -1,15 +1,61 @@
 /* Change the white to any color */
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active{
-    -webkit-box-shadow: 0 0 0 30px #1f2937 inset !important;
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #1f2937 inset !important;
 }
 
-input:-webkit-autofill{
+input:-webkit-autofill {
   -webkit-text-fill-color: #f1fff2 !important;
 }
 
-.min-table-height{
+.min-table-height {
   min-height: 250px;
+}
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+.react-responsive-modal-modal {
+  max-width: initial;
+}
+.bg-gray-800-modal {
+  --tw-bg-opacity: 1;
+  background-color: rgb(31 41 55 / var(--tw-bg-opacity)) !important;
+}
+.css-10wo9uf-option,
+.css-1n6sfyn-MenuList {
+  color: rgb(243 244 246) !important;
+  background-color: rgb(31 41 55) !important;
+}
+.css-d7l1ni-option {
+  color: rgb(243 244 246) !important;
+  background-color: rgb(37 99 235) !important;
+}
+.css-1nmdiq5-menu {
+  position: unset !important;
+}
+.css-13cymwt-control {
+  background: #1f2937 !important;
+  border: 0 !important;
+  border-bottom: 2px #4b5563 solid !important;
+}
+.css-1jqq78o-placeholder {
+  color: #fff !important;
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
+}
+.css-t3ipsp-control {
+  background-color: #1f2937 !important;
+  border-width: 0 !important;
+  border-radius: 0 !important;
+}
+.css-1dimb5e-singleValue {
+  color: #fff !important;
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
+}
+.css-1n6sfyn-MenuList div {
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
 }

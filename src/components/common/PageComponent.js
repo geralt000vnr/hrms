@@ -16,7 +16,7 @@ function PageComponent({
             <RenderButtons listOfButtons={listOfButtons} />
           </div>
         </div>
-        <div className="bg-gray-200 dark:bg-gray-800 h-auto px-10 py-5 min-h-[70vh]">
+        <div className="bg-gray-200 dark:bg-gray-800 h-auto p-8 min-h-[70vh]">
           {componentToBeShown}
         </div>
       </div>

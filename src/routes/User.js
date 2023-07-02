@@ -1,22 +1,18 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { Navigate, Route, Routes, useParams } from "react-router-dom";
-import Footer from "../components/Footer";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import CalenderEmployee from "../EmployeeScreen/CalenderEmployee";
 import ChatEmployee from "../EmployeeScreen/ChatEmployee";
 import EmployeeHomeScreen from "../EmployeeScreen/EmployeeHomeScreen";
-import EmployeeList from "../EmployeeScreen/EmployeeList";
+import EmployeeListTabs from "../EmployeeScreen/employeeList/EmployeeListTabs";
 import HolidayTabs from "../EmployeeScreen/Holidays/HolidayTabs";
 import ProfileEmployee from "../EmployeeScreen/ProfileEmployee";
+import ProfileTabs from "../EmployeeScreen/Profiles/ProfileTabs";
 import ProjectsTab from "../EmployeeScreen/Projects/ProjectsTab";
 import TaskTabs from "../EmployeeScreen/Tasks/TaskTabs";
+import TeamTabs from "../EmployeeScreen/Teams/TeamTabs";
 
 function User() {
-  const { tab, id } = useParams();
-  const { user } = useSelector((state) => state);
-  // const currentUser = user?.currentUser;
-  // console.log("currentuser", user, tab, id);
   return (
     <div>
       {/* {currentUser.userType === "Admin" ? (
@@ -79,10 +75,17 @@ function User() {
             <Route path=":id" element={<ChatEmployee />} />
           </Route> */}
           <Route path={"/Holidayemployee/:tab"} element={<HolidayTabs />} />
-          <Route path={"/projectsEmployee/:tab"} element={<ProjectsTab />} />
-          <Route path={"/profileemployee"} element={<ProfileEmployee />} />
-          <Route path={"/taskEmployee/:tab/:id"} element={<TaskTabs />} />
-          <Route path={"/listemployee"} element={<EmployeeList />} />
+          <Route path={"/projectsEmployee/:tab"}>
+            <Route index element={<ProjectsTab />} />
+            <Route path=":id" element={<ProjectsTab />} />
+          </Route>
+          <Route path={"/userProfile/:tab"} element={<ProfileTabs />} />
+          <Route path={"/taskEmployee/:tab/:id"}>
+            <Route index element={<TaskTabs />} />
+            <Route path=":projectId" element={<TaskTabs />} />
+          </Route>
+          <Route path={"/teams/:tab"} element={<TeamTabs />} />
+          <Route path={"/listemployee"} element={<EmployeeListTabs />} />
           <Route path={"*"} element={<Navigate to={"/dashboard"} />} />
         </Routes>
         {/* <Footer /> */}

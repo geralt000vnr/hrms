@@ -7,7 +7,8 @@ import { chatMsg, getChatsList, getMessage, searchUser } from "../api";
 import { baseURL } from "../api/httpServices";
 import MainChatRoomComponent from "./chats/MainChatRoomComponent";
 
-const socket = io.connect("http://localhost:4000");
+// const socket = io.connect("http://localhost:4000"); // uncomment this when want to use socket
+let socket;
 
 function ChatEmployee() {
   const { id } = useParams();

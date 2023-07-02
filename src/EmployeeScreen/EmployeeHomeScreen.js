@@ -6,7 +6,6 @@ function HomeScreen() {
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
   useEffect(() => {
-    console.log("staes", currentUser);
     if (currentUser.id) {
       dispatch(userDetails(currentUser.id));
     }
