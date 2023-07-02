@@ -6,7 +6,6 @@ import ChatEmployee from "../EmployeeScreen/ChatEmployee";
 import EmployeeHomeScreen from "../EmployeeScreen/EmployeeHomeScreen";
 import EmployeeListTabs from "../EmployeeScreen/employeeList/EmployeeListTabs";
 import HolidayTabs from "../EmployeeScreen/Holidays/HolidayTabs";
-import ProfileEmployee from "../EmployeeScreen/ProfileEmployee";
 import ProfileTabs from "../EmployeeScreen/Profiles/ProfileTabs";
 import ProjectsTab from "../EmployeeScreen/Projects/ProjectsTab";
 import TaskTabs from "../EmployeeScreen/Tasks/TaskTabs";
