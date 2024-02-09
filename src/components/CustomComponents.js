@@ -102,7 +102,12 @@ export function TextArea({
   );
 }
 
-export function FormEndBtn({ onSubmit, onCancel }) {
+export function FormEndBtn({
+  onSubmit,
+  onCancel,
+  submitDisabled,
+  cancelDisabled,
+}) {
   return (
     <div>
       {onSubmit && (
@@ -110,7 +115,8 @@ export function FormEndBtn({ onSubmit, onCancel }) {
           onClick={onSubmit}
           title="Submit"
           type="submit"
-          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 mx-1 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 mx-1 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:bg-blue-300 disabled:hover:bg-blue-300 cursor-not-allowed"
+          disabled={submitDisabled}
         >
           Submit
         </button>
@@ -119,7 +125,8 @@ export function FormEndBtn({ onSubmit, onCancel }) {
         <button
           type="button"
           onClick={onCancel}
-          className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 mx-1 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+          className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 mx-1 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800 disabled:bg-red-300 disabled:hover:bg-red-300 cursor-not-allowed"
+          disabled={cancelDisabled}
         >
           Cancel
         </button>
@@ -264,3 +271,49 @@ export function Range({ value, onChange, label, id, required }) {
     </div>
   );
 }
+
+export const Checkbox = ({
+  checked,
+  onChange,
+  label,
+  id,
+  required,
+  type,
+  disabled,
+  placeholder,
+  inValid,
+  inValidMsg,
+  ...rest
+}) => {
+  return (
+    <div className="mb-6 inline">
+      {/* label not required in normal checkbox if label is required in checkbox use LabeledCheckbox */}
+      {/* <label
+          htmlFor={id}
+          className="block text-sm font-normal text-gray-500 dark:text-gray-400"
+        >
+          {label}
+          &nbsp;
+          {required && "*"}
+        </label> */}
+      <input
+        type={"checkbox"}
+        id={id}
+        checked={checked}
+        onChange={onChange}
+        required={required ? required : false}
+        disabled={disabled ? disabled : false}
+        className={`border-b-2 ${
+          inValid ? "border-red-600" : "border-gray-300 dark:border-gray-600"
+        } text-gray-900 focus:outline-none p-2.5 bg-gray-800 dark:text-white text-sm`}
+        placeholder={placeholder ? placeholder : "Enter " + label}
+        {...rest}
+      />
+      {inValid && (
+        <p className="mt-2 ml-2 text-sm text-red-600 dark:text-red-500 italic">
+          {inValidMsg}
+        </p>
+      )}
+    </div>
+  );
+};

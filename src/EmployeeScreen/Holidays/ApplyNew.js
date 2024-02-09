@@ -8,6 +8,7 @@ import { Dropdown, FormEndBtn, Input } from "../../components/CustomComponents";
 function ApplyNew() {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state);
+  const { rolePermissions } = useSelector((state) => state.permissions);
   const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState("");
   const [reason, setReason] = useState("");
@@ -15,7 +16,6 @@ function ApplyNew() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
-  console.log("usersss in form", user.currentUser.id);
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = {
@@ -99,7 +99,11 @@ function ApplyNew() {
             />
           </div>
         </div>
-        <FormEndBtn onSubmit={handleSubmit} />
+        {console.log("sdgad", rolePermissions)}
+        <FormEndBtn
+          onSubmit={handleSubmit}
+          submitDisabled={!rolePermissions?.permissions?.includes("holidaysu")}
+        />
       </form>
     </div>
   );

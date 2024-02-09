@@ -10,6 +10,8 @@ import ProfileTabs from "../EmployeeScreen/Profiles/ProfileTabs";
 import ProjectsTab from "../EmployeeScreen/Projects/ProjectsTab";
 import TaskTabs from "../EmployeeScreen/Tasks/TaskTabs";
 import TeamTabs from "../EmployeeScreen/Teams/TeamTabs";
+import PermissionTabs from "../EmployeeScreen/PermessionManagement/PermissionTabs";
+import PrivateRoutes from "./PrivateRoutes";
 
 function User() {
   return (
@@ -73,6 +75,10 @@ function User() {
             <Route index element={<ChatEmployee />} />
             <Route path=":id" element={<ChatEmployee />} />
           </Route> */}
+          {/* <PrivateRoutes
+            path={"/Holidayemployee/:tab"}
+            Component={HolidayTabs}
+          /> */}
           <Route path={"/Holidayemployee/:tab"} element={<HolidayTabs />} />
           <Route path={"/projectsEmployee/:tab"}>
             <Route index element={<ProjectsTab />} />
@@ -85,6 +91,10 @@ function User() {
           </Route>
           <Route path={"/teams/:tab"} element={<TeamTabs />} />
           <Route path={"/listemployee"} element={<EmployeeListTabs />} />
+          <Route path={"/permissionManagement/:tab"}>
+            <Route index element={<PermissionTabs />} />
+            <Route path=":id" element={<PermissionTabs />} />
+          </Route>
           <Route path={"*"} element={<Navigate to={"/dashboard"} />} />
         </Routes>
         {/* <Footer /> */}

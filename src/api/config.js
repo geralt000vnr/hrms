@@ -22,6 +22,10 @@ const API_PATH = {
   apiCreateTeam: "/api/team/createTeam",
   apiGetTeamList: "/api/team/getTeamList",
   me: "/api/user/me",
+  getRoleList: "/api/permission/getAllRoleList",
+  getRoleDetails: "/api/permission/getRoleDetails",
+  createRole: "/api/permission/createRole",
+  getAllModules: "/api/module/getAllModules",
 };
 
 export default API_PATH;

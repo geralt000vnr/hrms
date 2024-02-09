@@ -212,7 +212,25 @@ function Navbar() {
                 >
                   <div
                     className="w-full p-2 hover:bg-zinc-900 cursor-pointer"
-                    onClick={() => navigate("/calenderemployee")}
+                    onClick={() => {
+                      setToggleMenu(false);
+                      setToggleNotification(false);
+                      navigate("/permissionManagement/table");
+                    }}
+                  >
+                    <div className="flex justify-between">
+                      <span className="block mx-2 font-semibold text-base text-gray-600 dark:text-gray-400">
+                        Permission Management
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    className="w-full p-2 hover:bg-zinc-900 cursor-pointer"
+                    onClick={() => {
+                      setToggleMenu(false);
+                      setToggleNotification(false);
+                      navigate("/calenderemployee");
+                    }}
                   >
                     <div className="flex justify-between">
                       <span className="block mx-2 font-semibold text-base text-gray-600 dark:text-gray-400">

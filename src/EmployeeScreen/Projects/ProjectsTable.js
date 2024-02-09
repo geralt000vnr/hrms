@@ -195,7 +195,7 @@ function ProjectsTable() {
         handleReset={() =>
           setTableState({
             search: "",
-            sortField: "fullName",
+            sortField: "projectName",
             order: "asc",
             pageNo: 1,
             perPage: 10,
