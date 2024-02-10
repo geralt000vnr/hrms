@@ -16,55 +16,6 @@ import PrivateRoutes from "./PrivateRoutes";
 function User() {
   return (
     <div>
-      {/* {currentUser.userType === "Admin" ? (
-        <>
-          <Navbar />
-          <Routes>
-            <Route path={"/"} element={<EmployeeHomeScreen />} />
-            <Route path={"/calenderemployee"} element={<CalenderEmployee />} />
-            <Route path={"/chatemployee"} element={<ChatEmployee />} />
-            <Route path={"/holidayEmployee/:tab"} element={<HolidayTabs />} />
-            <Route path={"/projectsEmployee/:tab"} element={<ProjectsTab />} />
-            <Route path={"/profileemployee"} element={<ProfileEmployee />} />
-            <Route path={"/taskEmployee/:tab/:id?"} element={<TaskTabs />} />
-            <Route path={"/listemployee"} element={<EmployeeList />} />
-            <Route path={"*"} element={<EmployeeHomeScreen />} />
-          </Routes>
-          <Footer />
-        </>
-      ) : currentUser.userType === "HR" ? (
-        <>
-          <Navbar />
-          <Routes>
-            <Route path={"/"} element={<EmployeeHomeScreen />} />
-            <Route path={"/calenderemployee"} element={<CalenderEmployee />} />
-            <Route path={"/chatemployee"} element={<ChatEmployee />} />
-            <Route path={"/Holidayemployee/:tab"} element={<HolidayTabs />} />
-            <Route path={"/projectsemployee"} element={<ProjectsEmployee />} />
-            <Route path={"/profileemployee"} element={<ProfileEmployee />} />
-            <Route path={"/taskemployee"} element={<TaskEmployee />} />
-            <Route path={"/listemployee"} element={<EmployeeList />} />
-            <Route path={"*"} element={<EmployeeHomeScreen />} />
-          </Routes>
-          <Footer />
-        </>
-      ) : currentUser.userType === "TL" ? (
-        <>
-          <Navbar />
-          <Routes>
-            <Route path={"/"} element={<EmployeeHomeScreen />} />
-            <Route path={"/calenderemployee"} element={<CalenderEmployee />} />
-            <Route path={"/chatemployee"} element={<ChatEmployee />} />
-            <Route path={"/Holidayemployee/:tab"} element={<HolidayTabs />} />
-            <Route path={"/projectsemployee"} element={<ProjectsEmployee />} />
-            <Route path={"/profileemployee"} element={<ProfileEmployee />} />
-            <Route path={"/taskemployee"} element={<TaskEmployee />} />
-            <Route path={"/listemployee"} element={<EmployeeList />} />
-            <Route path={"*"} element={<EmployeeHomeScreen />} />
-          </Routes>
-          <Footer />
-        </>
-      ) : (*/}
       <>
         <Navbar />
         <Routes>
